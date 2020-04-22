@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/reactMP/static/css/main.6869756d.chunk.css",
+    "main.js": "/reactMP/static/js/main.8cb9a05b.chunk.js",
+    "main.js.map": "/reactMP/static/js/main.8cb9a05b.chunk.js.map",
+    "runtime-main.js": "/reactMP/static/js/runtime-main.bdf3e88f.js",
+    "runtime-main.js.map": "/reactMP/static/js/runtime-main.bdf3e88f.js.map",
+    "static/js/2.a70851cd.chunk.js": "/reactMP/static/js/2.a70851cd.chunk.js",
+    "static/js/2.a70851cd.chunk.js.map": "/reactMP/static/js/2.a70851cd.chunk.js.map",
+    "index.html": "/reactMP/index.html",
+    "precache-manifest.71570a5b4e52d10813807dedd39102c3.js": "/reactMP/precache-manifest.71570a5b4e52d10813807dedd39102c3.js",
+    "service-worker.js": "/reactMP/service-worker.js",
+    "static/css/main.6869756d.chunk.css.map": "/reactMP/static/css/main.6869756d.chunk.css.map",
+    "static/js/2.a70851cd.chunk.js.LICENSE.txt": "/reactMP/static/js/2.a70851cd.chunk.js.LICENSE.txt",
+    "static/media/App.css": "/reactMP/static/media/women_empowered.15394418.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.bdf3e88f.js",
+    "static/js/2.a70851cd.chunk.js",
+    "static/css/main.6869756d.chunk.css",
+    "static/js/main.8cb9a05b.chunk.js"
+  ]
+}
