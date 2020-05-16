@@ -1,23 +1,91 @@
 import React, {Component} from 'react';
 import fire,{storage} from '../config/Fire';
+import { Link } from 'react-router-dom';
 import './loginpage.css';
 import Map from './Map';
+import ReactDOM from "react-dom";
 
 class Home extends Component {
 
     logout = () => {
-        fire.auth().signOut();
+      console.log("Sending a logout request to the API...");
+      this.setState({ logginStatus: false });
+      fire.auth().signOut();
+      window.alert("Logging out!");
     }
-
     constructor(props) {
         super(props);
+        this.ref = fire.firestore().collection('coordinates');
         this.state = {
           image: null,
           imgSrc: "",
-          progress: 0          
+          progress: 0,
+          markerslist:[],
+          long:'',
+          lat:'',      
         };
-      }
+    }
     
+    onCollectionUpdate = (querySnapshot) => {
+      const markerslist = [];
+      querySnapshot.forEach((doc) => {
+        const { long,lat } = doc.data();
+        markerslist.push({
+          key:'',
+          doc, // DocumentSnapshot
+          long,
+          lat,
+        });
+      });
+      this.setState({
+        markerslist
+      });
+    }
+
+    /*componentDidMount() {
+      const refr = fire.firestore().collection('coordinates').doc(this.props.match.params.id);
+      refr.get().then((doc) => {
+        if (doc.exists) {
+          this.setState({
+            coordinates: doc.data(),
+            key: doc.id,
+            isLoading: false
+          });
+        } else {
+          console.log("No such document!");
+        }
+      });
+    }*/
+    delete(id){
+      fire.firestore().collection('coordinates').doc(id).delete().then(() => {
+        console.log("Document successfully deleted!");
+        window.alert("deleting marker")
+        this.props.history.push("/")
+      }).catch((error) => {
+        console.error("Error removing document: ", error);
+        window.alert("Error deleting");
+      });
+    }
+
+      handleMarker=(event)=>{
+        event.preventDefault();
+        const{long,lat}=this.state;
+        this.ref.add({
+            long,
+            lat
+          }).then((docRef)=>{
+            this.setState({
+              long: '',
+              lat: ''
+            });
+            window.alert("Added marker");
+          })
+          .catch((error) => {
+            console.error("Error adding document: ", error);
+            window.alert("Error adding");
+          });
+        
+      }
       handleChange = (event) => {
         if (event.target.files[0]) {
             const image = event.target.files[0];
@@ -33,6 +101,12 @@ class Home extends Component {
             }.bind(this);
         console.log(url)
       };
+      onchange = (e) => {
+        const state = this.state
+        state[e.target.name] = e.target.value;
+        this.setState({markerslist:state});
+      }
+    
       handleUpload = () => {
         const { image } = this.state;
         if(image){
@@ -62,15 +136,14 @@ class Home extends Component {
             window.alert("Uploaded successfully");
             window.location.reload(false);
             });
- 
-        });
-
+         });
         }
         else{
           window.alert("Please select your File!")
         }
         
       };
+      
       
     render() {
       
@@ -106,7 +179,7 @@ class Home extends Component {
                     <input className="inputType" type="file" onChange={this.handleChange} 
                         name="user[image]" 
                         ref="file"
-                        multiple="true" /><br /><br />
+                        multiple="false" /><br /><br />
                       <img
                       src={this.state.imgSrc || "https://via.placeholder.com/400x300?text=Your+Image+will+be+dislpayed+here"}
                       alt="Uploaded Images"
@@ -119,6 +192,32 @@ class Home extends Component {
                     >
                       Upload
                     </button>
+                    <br/>
+                    lat:
+                    <input
+                    type="text"
+                    value={this.state.lat}
+                    placeholder="latitude"
+                    name="lat"
+                    onChange={this.onchange}>
+                    </input>
+                    <br></br>
+                    long:
+                    <input
+                    type="text"
+                    value={this.state.long}
+                    placeholder="longitude"
+                    name="long"
+                    onChange={this.onchange}
+                    >
+                    </input>
+                    <button
+                      onClick={this.handleMarker}
+                    >Add Marker</button>
+                    <br></br>
+                    <button
+                      onClick={this.delete.bind(this,this.state.key)}
+                    >Delete</button>
                   </div>
                     
                   </div>         
@@ -129,5 +228,6 @@ class Home extends Component {
     }
 }
 
-
+const rootElement = document.getElementById("root");
+ReactDOM.render(<Home />, rootElement);
 export default Home

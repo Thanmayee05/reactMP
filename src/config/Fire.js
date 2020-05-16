@@ -1,6 +1,6 @@
 import firebase from 'firebase';
-import 'firebase/storage'
-
+import 'firebase/storage';
+import 'firebase/auth';
   const firebaseConfig = {
     apiKey: "AIzaSyBMPMKYba0QsSRKH4cby1WKenFgTlI16yY",
     authDomain: "demoproject-a62a8.firebaseapp.com",
@@ -13,7 +13,7 @@ import 'firebase/storage'
   };
 
  const fire=firebase.initializeApp(firebaseConfig);
- const storage = firebase.storage()
+ const storage = firebase.storage();
  export  {
   storage, fire as default
 }

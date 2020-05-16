@@ -12,6 +12,9 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-firebase-file-uploader": "^2.4.3",
+    "react-geocode": "^0.2.1",
+    "react-google-location": "^1.2.2",
+    "react-google-maps": "^9.4.5",
     "react-idle": "^3.0.0",
     "react-idle-timer": "^4.2.12",
     "react-router": "^5.1.2",
@@ -20,7 +23,7 @@
   },
   "scripts": {
     "predeploy": "npm run build",
-    "deploy":"gh-pages -d build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -42,6 +45,7 @@
     ]
   },
   "devDependencies": {
+    "bootstrap": "^4.4.1",
     "gh-pages": "^2.2.0"
   }
 }
