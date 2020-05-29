@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import GoogleMapReact from 'google-map-react';
 import Marker from './Marker';
-
+import {showMarkerinLoc} from './Home';
 
 const SimpleMap = (props: any) => {
     const [center, setCenter] = useState({lat: 17.387140, lng: 78.491684});
@@ -14,8 +14,8 @@ const SimpleMap = (props: any) => {
           defaultZoom={15}
         >
           <Marker
-            lat={17.387140}
-            lng={78.491684}
+            lat={17.3850}
+            lng={78.4867}
             name="My Marker"
             color="rgb(207, 40, 40)"
           />

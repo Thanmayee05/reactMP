@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import fire,{storage} from '../config/Fire';
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 import './loginpage.css';
 import Map from './Map';
-import ReactDOM from "react-dom";
+//import ReactDOM from "react-dom";
 
 class Home extends Component {
 
@@ -26,6 +26,18 @@ class Home extends Component {
         };
     }
     
+    showMarkerinLoc()
+    {
+      navigator.geolocation.getCurrentPosition((position)=>
+       this.setState({
+          long:position.coords.longitude,
+          lat:position.coords.latitude
+        }),
+      );
+      const long=this.state.long;
+      const lat=this.state.lat;
+      return long,lat;
+    }
     onCollectionUpdate = (querySnapshot) => {
       const markerslist = [];
       querySnapshot.forEach((doc) => {
@@ -41,21 +53,31 @@ class Home extends Component {
         markerslist
       });
     }
-
-    /*componentDidMount() {
-      const refr = fire.firestore().collection('coordinates').doc(this.props.match.params.id);
-      refr.get().then((doc) => {
-        if (doc.exists) {
+    onchange = (e) => {
+      const state = this.state
+      state[e.target.name] = e.target.value;
+      this.setState({markerslist:state});
+    }
+    handleMarker=(event)=>{
+      event.preventDefault();
+      const {long,lat}=this.state;
+      this.ref.add({
+          long,
+          lat
+        }).then((docRef)=>{
           this.setState({
-            coordinates: doc.data(),
-            key: doc.id,
-            isLoading: false
+            long:'',
+            lat:''
           });
-        } else {
-          console.log("No such document!");
-        }
-      });
-    }*/
+          //this.props.history.push("/")
+          window.alert("Added marker");
+        })
+        .catch((error) => {
+          console.error("Error adding document: ", error);
+          window.alert("Error adding");
+        });
+      
+    }
     delete(id){
       fire.firestore().collection('coordinates').doc(id).delete().then(() => {
         console.log("Document successfully deleted!");
@@ -65,27 +87,9 @@ class Home extends Component {
         console.error("Error removing document: ", error);
         window.alert("Error deleting");
       });
-    }
+    } 
 
-      handleMarker=(event)=>{
-        event.preventDefault();
-        const{long,lat}=this.state;
-        this.ref.add({
-            long,
-            lat
-          }).then((docRef)=>{
-            this.setState({
-              long: '',
-              lat: ''
-            });
-            window.alert("Added marker");
-          })
-          .catch((error) => {
-            console.error("Error adding document: ", error);
-            window.alert("Error adding");
-          });
-        
-      }
+      
       handleChange = (event) => {
         if (event.target.files[0]) {
             const image = event.target.files[0];
@@ -101,11 +105,7 @@ class Home extends Component {
             }.bind(this);
         console.log(url)
       };
-      onchange = (e) => {
-        const state = this.state
-        state[e.target.name] = e.target.value;
-        this.setState({markerslist:state});
-      }
+      
     
       handleUpload = () => {
         const { image } = this.state;
@@ -153,6 +153,7 @@ class Home extends Component {
             <div class="header">
                 <a href="#home" class="logo"> </a>
                 <a href="#default" class="header-left" style={{fontSize:"32px"}}>She<span style={{color:'rgb(8, 49, 231)',fontFamily:'Titillium Web',fontWeight:'bold',fontSize:'36px'}}>Help</span></a>
+                
                 <div class="header-right">
                     <a class="active" href="#home">Home</a>
                     <a href="#contact">Contact</a>
@@ -164,6 +165,7 @@ class Home extends Component {
                 <div style={{textAlign:"center",fontSize:'40px'}}>
                     Welcome User!
                     <button onClick={this.logout} style={{float:'right',marginRight:'50px',marginTop:"30px"}}>Logout</button>
+                    <button onClick={this.position} style={{float:'left', marginLeft:'10px', marginTop:'30px'}}> Get Current Location </button>
                 </div>
                 <br />
                 <div className="imgUpload" style={{marginLeft:"80px"}}>
@@ -181,36 +183,16 @@ class Home extends Component {
                         ref="file"
                         multiple="false" /><br /><br />
                       <img
-                      src={this.state.imgSrc || "https://via.placeholder.com/400x300?text=Your+Image+will+be+dislpayed+here"}
+                      src={this.state.imgSrc || "https://via.placeholder.com/400x300?text=Your+Image+will+be+displayed+here"}
                       alt="Uploaded Images"
                       width="400"
                       height="300"
                       /><br /><br />
                     
                     <button
-                      onClick={this.handleUpload}
-                    >
-                      Upload
-                    </button>
+                      onClick={this.handleUpload}> Upload </button>
                     <br/>
-                    lat:
-                    <input
-                    type="text"
-                    value={this.state.lat}
-                    placeholder="latitude"
-                    name="lat"
-                    onChange={this.onchange}>
-                    </input>
-                    <br></br>
-                    long:
-                    <input
-                    type="text"
-                    value={this.state.long}
-                    placeholder="longitude"
-                    name="long"
-                    onChange={this.onchange}
-                    >
-                    </input>
+                   
                     <button
                       onClick={this.handleMarker}
                     >Add Marker</button>
@@ -228,6 +210,13 @@ class Home extends Component {
     }
 }
 
-const rootElement = document.getElementById("root");
-ReactDOM.render(<Home />, rootElement);
-export default Home
+export default Home;
+
+
+
+
+
+
+  
+
+  
