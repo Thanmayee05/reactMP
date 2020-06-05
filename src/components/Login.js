@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import fire from '../config/Fire';
-
+import Profile from './Profile';
+import Home from './Home';
+import { Redirect} from 'react-router-dom';
+import App from '../App';
 class Login extends Component {
     constructor(props){
         super(props);
@@ -10,26 +13,43 @@ class Login extends Component {
             name:'',
             fireErrors: '',
             formTitle: 'Login',
-            loginBtn: true
+            loginBtn: true,
+            user:null,
+            msg:''
         }
     }
-
+    componentDidMount(){
+        this.authListener();
+      }
+    authListener(){
+        fire.auth().onAuthStateChanged((user) => {
+          if(user){
+            this.setState({user});
+          }else{
+            this.setState({user:null});
+          }
+        });
+      }
     login = e => {
         e.preventDefault();
         fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+        .then(()=>{
+            this.setState({msg:"Login success"});
+        })
         .catch((error) => {
             this.setState({fireErrors: error.message})
-        });
+        });     
     }
-    
     register = e => {
         e.preventDefault();
         fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+        .then(()=>{
+            this.setState({msg:"Registration success"})
+        })
         .catch((error) => {
             this.setState({fireErrors: error.message})
         });
     }
-
     getAction = action => {
         if(action === 'reg'){
             this.setState({formTitle: 'Register', loginBtn: false, fireErrors: ''});
@@ -37,66 +57,52 @@ class Login extends Component {
             this.setState({formTitle: 'Login', loginBtn: true, fireErrors: ''});
         }
     }
-
     handleChange = e => {
         this.setState({[e.target.name]: e.target.value});
     }
-
     render(){
-
         let errorNotification = this.state.fireErrors ? 
             ( <div className="Error"> {this.state.fireErrors} </div> ) : null;
-
         let submitBtn = this.state.loginBtn ? 
             (<input className="loginBtn" type="submit" onClick={this.login} value="Submit" />) : 
             (<input className="loginBtn" type="submit" onClick={this.register} value="Submit" />);
-
         let login_register = this.state.loginBtn ?
             (<button className="registerBtn" onClick={() => this.getAction('reg')}>New User? Register</button>) : 
             (<button className="registerBtn" onClick={() => this.getAction('login')}>Existing user? Login</button>)
-
+        if(this.state.msg==="Login success")
+        {
+            return <Redirect to='/mapsPage'/>;
+        }
+        if(this.state.msg==="Registration success")
+        {
+            return <Redirect to='/profile'/>;
+        }
+        
         return(
-            <div>
             <div className="bgimg">
-                <div class="header">
-                    <a href="#home" class="logo"></a>
-                    <a href="#default" class="header-left" style={{fontSize:"32px"}}>She<span style={{color:'rgb(8, 49, 231)',fontFamily:'Titillium Web',fontWeight:'bold',fontSize:'36px'}}>Help</span></a>
-                    <div class="header-right">
-                        <a class="active" href="#home">Home</a>
-                        <a href="#contact">Contact</a>
-                        <a href="#About">About</a>
-                    </div>
-                </div>
-                <div className="form_block">
+                <div className="form_block" >
                     <div id="title">{this.state.formTitle}</div>
                     <div className="body">
                         {errorNotification}
                         <form>
-                            Email ID
-                            <br></br>
+                            Email ID<br/>
                             <input type="text" 
                             value={this.state.email} 
                             placeholder="EmailID"
                             onChange={this.handleChange} 
                             name="email" />
-                            Password
-                            <br></br>
+                            Password<br/>
                             <input type="password" 
                             value={this.state.password} 
                             onChange={this.handleChange}
                             placeholder="Password" 
                             name="password" />
-
                             {submitBtn}
                         </form>
                         {login_register}
                     </div>
                 </div>
             </div>
-            </div>
-            
-        )
+        )}
     }
-}
-
-export default Login;
+export default (Login);

@@ -3,7 +3,9 @@
   min-height: 110vh;
   background-repeat: no-repeat;
   background-size: cover;
-  padding-top: 0px;
+  margin-top: 60px;
+  padding-top: 80px;
+  
 }
 .form_block{
   width: 300px;
@@ -30,7 +32,7 @@
   text-shadow: -1px -1px 0 rgba(0,0,0,.2);
 }
 .form_block > .body{
-  padding: 10px;
+  padding: 0px;
   display: table;
 }
 .form_block:hover{
@@ -41,6 +43,7 @@
   color:rgb(245, 245, 245);
   font-style: italic ;
   font-size: 18px;
+  padding-top: 30px;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 input[type='text'],input[type='password'] {
@@ -110,9 +113,9 @@ input[type='text'],input[type='password'] {
   color: #02660a;
 }
 .header {
-  margin-top: 2px;
+  margin-top: 0px;
   overflow: hidden;
-  padding: 5px 20px;
+  padding: 0px;
   font-family: cursive;
   background-color: rgba(0, 0, 0, 0.9);
 

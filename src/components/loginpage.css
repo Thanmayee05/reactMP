@@ -13,7 +13,8 @@
     min-height: 130vh;
     background-repeat: no-repeat;
     background-size: cover;
-    padding-top: 0px;
+    margin-top: 60px;
+    padding-top: 80px;
 }
 .markerBlock {
     position: absolute;
@@ -30,4 +31,7 @@
   }
 .markerBlock:hover {
     z-index: 1;
+  }
+.searchBoxStyle{
+    width: fit-content;
   }

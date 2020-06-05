@@ -1,18 +1,11 @@
 import React, {Component} from 'react';
 import fire,{storage} from '../config/Fire';
-//import { Link } from 'react-router-dom';
 import './loginpage.css';
 import Map from './Map';
-//import ReactDOM from "react-dom";
-
+import { Redirect} from 'react-router-dom';
 class Home extends Component {
 
-    logout = () => {
-      console.log("Sending a logout request to the API...");
-      this.setState({ logginStatus: false });
-      fire.auth().signOut();
-      window.alert("Logging out!");
-    }
+    
     constructor(props) {
         super(props);
         this.ref = fire.firestore().collection('coordinates');
@@ -22,10 +15,35 @@ class Home extends Component {
           progress: 0,
           markerslist:[],
           long:'',
-          lat:'',      
+          lat:'', 
+          message:'',
+          logginStatus:true   
         };
     }
+    logout = () => {
+      console.log("Sending a logout request to the API...");
+      this.setState({ logginStatus: false });
+      fire.auth().signOut()
+      window.alert("Logging out!");
+      
+    }
     
+    delete(id) {
+      fire
+        .firestore()
+        .collection("coordinates")
+        .doc(id)
+        .delete()
+        .then(() => {
+          console.log("Document successfully deleted!");
+          window.alert("deleting marker");
+          this.props.history.push("/");
+        })
+        .catch((error) => {
+          console.error("Error removing document: ", error);
+          window.alert("Error deleting");
+        });
+    }
     showMarkerinLoc()
     {
       navigator.geolocation.getCurrentPosition((position)=>
@@ -78,18 +96,7 @@ class Home extends Component {
         });
       
     }
-    delete(id){
-      fire.firestore().collection('coordinates').doc(id).delete().then(() => {
-        console.log("Document successfully deleted!");
-        window.alert("deleting marker")
-        this.props.history.push("/")
-      }).catch((error) => {
-        console.error("Error removing document: ", error);
-        window.alert("Error deleting");
-      });
-    } 
-
-      
+    
       handleChange = (event) => {
         if (event.target.files[0]) {
             const image = event.target.files[0];
@@ -106,7 +113,6 @@ class Home extends Component {
         console.log(url)
       };
       
-    
       handleUpload = () => {
         const { image } = this.state;
         if(image){
@@ -143,23 +149,14 @@ class Home extends Component {
         }
         
       };
-      
-      
+       
     render() {
-      
-      
+        if(this.state.logginStatus===false)
+        {
+          return <Redirect to='/login'/>;
+        }  
         return (
           <div>
-            <div class="header">
-                <a href="#home" class="logo"> </a>
-                <a href="#default" class="header-left" style={{fontSize:"32px"}}>She<span style={{color:'rgb(8, 49, 231)',fontFamily:'Titillium Web',fontWeight:'bold',fontSize:'36px'}}>Help</span></a>
-                
-                <div class="header-right">
-                    <a class="active" href="#home">Home</a>
-                    <a href="#contact">Contact</a>
-                    <a href="#About">About</a>
-                </div>
-            </div>
             <div>
               <div className="mapsbg">
                 <div style={{textAlign:"center",fontSize:'40px'}}>
@@ -211,12 +208,3 @@ class Home extends Component {
 }
 
 export default Home;
-
-
-
-
-
-
-  
-
-  
