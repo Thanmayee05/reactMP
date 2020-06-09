@@ -4,7 +4,7 @@ import { GoogleComponent } from "react-google-location";
 import './loginpage.css';
 import Map from './Map';
 import { Redirect} from 'react-router-dom';
-const API_KEY = "AIzaSyDprftdVU4M9RKlH31yZqrPNO5Rj-Y6AK";
+const API_KEY = "AIzaSyBis2xi_3iI-dRw9A8GeY71myhp0DNTXHo";
 
 class Home extends Component {
     constructor(props) {

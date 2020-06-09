@@ -19,7 +19,6 @@ class App extends Component {
                       <NavLink to="/about" exact>About</NavLink>
                       <NavLink to="/login" exact>Login</NavLink>
                       <NavLink to="/profile" exact>Profile</NavLink>
-
                   </div>
                   <Switch>
                     <Route exact path="/" component={LandingPage} />
