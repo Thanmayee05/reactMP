@@ -5,7 +5,7 @@ import Home from './components/Home';
 import HomePage from './components/HomePage';
 import Profile from './components/Profile';
 import './App.css';
-import {BrowserRouter as Router, IndexRoute, NavLink,Switch, Route } from 'react-router-dom';
+import {BrowserRouter as Router, NavLink,Switch, Route } from 'react-router-dom';
 class App extends Component {
   render(){
     return (
@@ -18,6 +18,8 @@ class App extends Component {
                       <NavLink active to="/" exact>Home</NavLink>
                       <NavLink to="/about" exact>About</NavLink>
                       <NavLink to="/login" exact>Login</NavLink>
+                      <NavLink to="/profile" exact>Profile</NavLink>
+
                   </div>
                   <Switch>
                     <Route exact path="/" component={HomePage} />

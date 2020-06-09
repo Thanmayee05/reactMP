@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import GoogleMapReact from 'google-map-react';
 import Marker from './Marker';
-import {showMarkerinLoc} from './Home';
-import { Zoom } from '@material-ui/core';
+//import {showMarkerinLoc} from './Home';
+//import { Zoom } from '@material-ui/core';
 
 class SimpleMap extends Component{
   static defaultProps={

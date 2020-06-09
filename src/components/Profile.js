@@ -1,158 +1,165 @@
-import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import DateFnsUtils from '@date-io/date-fns';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
-import './propage.css';
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="white" align="center" marginTop="20px">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        sheHelp
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
+import React, {Component} from 'react';
+import fire from '../config/Fire';
+import { Redirect} from 'react-router-dom';
 
 
-export default function Profile() {
-  const classes = useStyles();
-  const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
+class Profile extends Component {
+  constructor(props){
+      super(props);
+      this.state = {
+          uname:'',
+          phoneno:null,
+          email:'',
+          city:'',
+          formTitle: 'UserProfile',
+          userDetails:[],
+          //msg:''
+      };
+  }
+  handleChange=e=>{
+    this.setState({
+      [e.target.name] : e.target.value
+    });
+  }
+  getUserData = () => {
+    let ref = fire.database().ref("/");
+    ref.on("value", snapshot => {
+      const state = snapshot.val();
+      this.setState(state);
+    });
   };
-
-  return (
-    <div className="page">
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5" style={{fontFamily:'Anton',fontWeight:'bold',fontSize:'50px'}}>
-          Update Profile
-        </Typography>
-        <div className="containers">
-          <form className={classes.form} style={{backgroundColor: 'rgb(255, 255, 255,0.75)',padding:'25px',marginTop:'0px'}}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={10}>
-                <TextField
-                  required
-                  autoComplete="fname"
-                  name="firstName"
-                  variant="outlined"
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={10}>
-                <TextField
-                  autoComplete="fname"
-                  name="firstName"
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="phno"
-                  label="Phone Number"
-                />
-              </Grid>
-              <Grid item xs={12} sm={10}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                />
-              </Grid>
-              <Grid item xs={12} sm={10}>
-                <TextField
-                  autoComplete="location"
-                  name="loc"
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="floc"
-                  label="City"
-                />
-              </Grid>
-              <Grid item xs={12} sm={8}>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <Grid container justify="space-around">
-                  <KeyboardDatePicker
-                    disableToolbar
-                    fullWidth
-                    variant="inline"
-                    format="dd/MM/yyyy"
-                    id="date-picker-inline"
-                    label="DOB: DD/MM/YYYY"
-                    onChange={handleDateChange}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                    }}
-                  />
-                </Grid>
-                </MuiPickersUtilsProvider>
-              </Grid>
-            </Grid>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-              >
-              Submit
-            </Button>
-          </form>
-        </div>        
+  componentDidUpdate()
+  {
+    //if (prevState !== this.state) {
+      this.writeUserData();
+    //}
+  }
+  componentDidMount()
+  {
+    this.getUserData();
+  }
+  //user = uid => this.db.ref(`users/${uid}`);
+  /*onCollectionUpdate = (querySnapshot) => {
+    const userDetails = [];
+    querySnapshot.forEach((doc) => {
+      const { uname,phoneno,email,city } = doc.data();
+      userDetails.push({
+        key:'',
+        doc, // DocumentSnapshot
+        uname,
+        phoneno,
+        email,
+        city
+      });
+    });
+    this.setState({
+      userDetails
+    });
+  }*/
+  
+  writeUserData = () => {
+    fire.database().ref("/").set(this.state);
+    console.log("DATA SAVED");
+  };
+  handleSub = e =>{
+    e.preventDefault();
+    const uname = this.state.uname;
+    const phoneno = this.state.phoneno;
+    const email=this.state.email;
+    const city=this.state.city;
+    const uid = this.state.uid;
+    if (uid && uname && phoneno && email && city){
+      const { users } = this.state;
+      const devIndex = users.findIndex(data => {
+        return data.uid === uid 
+      });
+      users[devIndex].uname = uname;
+      users[devIndex].phoneno = phoneno;
+      users[devIndex].email = email;
+      users[devIndex].city = city;
+      this.setState({ users });
+    }
+    else if (uname && phoneno && email && city) {
+      //const uid = new Date().getTime().toString();
+      const { users } = this.state;
+      users.push({ uname, phoneno, email, city })
+      this.setState({ users });
+    }
+    this.setState({
+      uname:'',
+      phoneno:null,
+      email:'',
+      city:''
+    })
+  }
+  
+    /*let messageRef = fire.database().ref('profile').orderByKey().limitToLast(100);
+    fire.database().ref('profile').push(this.state.text);
+    if(this.state.phoneno===null)
+    {
+      window.alert("Invalid Phone Number");
+    }
+    else
+    {
+      this.setState({
+        uname :'',
+        phoneno:null,
+        email:'',
+        city:''
+      })
+      this.setState({msg:"Profile updated"});
+    }
+  }*/
+  render()
+  {
+    if(this.state.msg==="Profile updated")
+    {
+        return <Redirect to='/mapsPage'/>;
+    }
+    //const { users } = this.state;
+    return(
+      <div className="bgimg">
+          <div className="form_block" >
+              <div id="title">{this.state.formTitle}</div>
+                <div className="body">
+                  <form>
+                      User Name<br/>
+                      <input type="text" 
+                      value={this.state.uname} 
+                      placeholder="UserName"
+                      onChange={this.handleChange} 
+                      required
+                      name="uname" />
+                      Phone Number<br/>
+                      <input type="text" 
+                      required
+                      inputmode="numeric"
+                      value={this.state.phoneno} 
+                      placeholder="PhoneNumber"
+                      onChange={this.handleChange} 
+                      name="phoneno" />
+                      Email ID<br/>
+                      <input type="text" 
+                      value={this.state.email} 
+                      placeholder="EmailID"
+                      required
+                      onChange={this.handleChange} 
+                      name="email" />
+                      City<br/>
+                      <input type="text" 
+                      value={this.state.city} 
+                      onChange={this.handleChange}
+                      placeholder="CityName" 
+                      required
+                      name="city" /><br/><br/>
+                      <button onClick={this.handleSub}>
+                        SUBMIT
+                      </button>
+                  </form>
+              </div>
+          </div>
       </div>
-      <Box mt={5} style={{color:'white'}}>
-        <Copyright />
-      </Box>
-    </Container>
-    </div>
-  );
+    )
+  }
 }
+export default Profile;

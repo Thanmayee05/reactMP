@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 import fire from '../config/Fire';
-import Profile from './Profile';
-import Home from './Home';
 import { Redirect} from 'react-router-dom';
-import App from '../App';
 class Login extends Component {
     constructor(props){
         super(props);
@@ -15,7 +12,8 @@ class Login extends Component {
             formTitle: 'Login',
             loginBtn: true,
             user:null,
-            msg:''
+            msg:'',
+            uid:null
         }
     }
     componentDidMount(){
@@ -35,6 +33,8 @@ class Login extends Component {
         fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
         .then(()=>{
             this.setState({msg:"Login success"});
+            const newId = fire.auth().currentUser.uid;
+            console.log(newId);
         })
         .catch((error) => {
             this.setState({fireErrors: error.message})
@@ -44,12 +44,15 @@ class Login extends Component {
         e.preventDefault();
         fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then(()=>{
-            this.setState({msg:"Registration success"})
+            this.setState({msg:"Registration success"}); 
+            const newId = fire.auth().currentUser.uid;
+            console.log(newId);
         })
         .catch((error) => {
             this.setState({fireErrors: error.message})
         });
     }
+    
     getAction = action => {
         if(action === 'reg'){
             this.setState({formTitle: 'Register', loginBtn: false, fireErrors: ''});

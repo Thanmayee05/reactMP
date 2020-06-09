@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
 import fire,{storage} from '../config/Fire';
+import { GoogleComponent } from "react-google-location";
 import './loginpage.css';
 import Map from './Map';
 import { Redirect} from 'react-router-dom';
+const API_KEY = "AIzaSyDprftdVU4M9RKlH31yZqrPNO5Rj-Y6AK";
+
 class Home extends Component {
 
     
@@ -52,24 +55,9 @@ class Home extends Component {
           lat:position.coords.latitude
         }),
       );
-      const long=this.state.long;
-      const lat=this.state.lat;
-      return long,lat;
-    }
-    onCollectionUpdate = (querySnapshot) => {
-      const markerslist = [];
-      querySnapshot.forEach((doc) => {
-        const { long,lat } = doc.data();
-        markerslist.push({
-          key:'',
-          doc, // DocumentSnapshot
-          long,
-          lat,
-        });
-      });
-      this.setState({
-        markerslist
-      });
+      //const long=this.state.long;
+      //const lat=this.state.lat;
+      //return long,lat;
     }
     onchange = (e) => {
       const state = this.state
@@ -115,8 +103,9 @@ class Home extends Component {
       
       handleUpload = () => {
         const { image } = this.state;
+        const newId = fire.auth().currentUser.uid;
         if(image){
-          const uploadTask = storage.ref(`images/${image.name}`).put(image);
+          const uploadTask = storage.ref(`images/${newId}/${image.name}`).put(image);
         uploadTask.on(
         "state_changed",
         snapshot => {
@@ -134,7 +123,7 @@ class Home extends Component {
         () => {
             // complete function ...
             storage
-            .ref("images")
+            .ref("images/"+newId)
             .child(image.name)
             .getDownloadURL()
             .then(url => {
@@ -165,6 +154,23 @@ class Home extends Component {
                     <button onClick={this.position} style={{float:'left', marginLeft:'10px', marginTop:'30px'}}> Get Current Location </button>
                 </div>
                 <br />
+                <div>
+                  <GoogleComponent
+                    apiKey={API_KEY}
+                    language={"en"}
+                    country={"country:in|country:us"}
+                    coordinates={true}
+                    locationBoxStyle={"custom-style"}
+                    locationListStyle={"custom-style-list"}
+                    onChange={(e) => {
+                      this.setState({
+                        place: e,
+                        lat: e.coordinates.lat,
+                        long: e.coordinates.lng,
+                      });
+                    }}
+                  />
+                </div>
                 <div className="imgUpload" style={{marginLeft:"80px"}}>
                   <Map
                     google={this.props.google}
@@ -189,7 +195,24 @@ class Home extends Component {
                     <button
                       onClick={this.handleUpload}> Upload </button>
                     <br/>
-                   
+                    lat:
+                    <input
+                      type="text"
+                      value={this.state.lat}
+                      placeholder="latitude"
+                      name="lat"
+                      onChange={this.onchange}
+                    ></input>
+                    <br></br>
+                    long:
+                    <input
+                      type="text"
+                      value={this.state.long}
+                      placeholder="longitude"
+                      name="long"
+                      onChange={this.onchange}
+                    ></input>
+                    <br/>
                     <button
                       onClick={this.handleMarker}
                     >Add Marker</button>
