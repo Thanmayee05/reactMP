@@ -9,6 +9,7 @@ class SimpleMap extends Component {
     center: { lat: 17.38714, lng: 78.491684 },
     zoom: 15,
   };
+
   render() {
     return (
       <div style={{ height: '600px', width: '900px', marginTop: '20px' }}>
