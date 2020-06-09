@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import fire, { storage } from '../config/Fire';
 import { GoogleComponent } from 'react-google-location';
 import Map from './Map';
-import { Redirect } from 'react-router-dom';
-const API_KEY = 'AIzaSyDprftdVU4M9RKlH31yZqrPNO5Rj-Y6AKg';
+import { Redirect} from 'react-router-dom';
+const API_KEY = "AIzaSyBis2xi_3iI-dRw9A8GeY71myhp0DNTXHo";
 
 class Home extends Component {
   constructor(props) {
