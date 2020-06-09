@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
 import Marker from './Marker';
 //import {showMarkerinLoc} from './Home';
@@ -20,12 +20,12 @@ class SimpleMap extends Component{
           <Marker
             lat={this.props.center.lat}
             lng={this.props.center.lng}
-            name="My Marker"
-            color="rgb(207, 40, 40)"
+            name='My Marker'
+            color='rgb(207, 40, 40)'
           />
         </GoogleMapReact>
       </div>
-        );
-      }
+    );
   }
+}
 export default SimpleMap;
