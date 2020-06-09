@@ -19,6 +19,7 @@ class Home extends Component {
       message: '',
       loginStatus: true,
       status: true,
+      //ref : '',
     };
   }
 
@@ -80,9 +81,10 @@ class Home extends Component {
     this.setState({
       markerslist: [...this.state.markerslist, newElement],
     });
-
-    this.ref
-      .add({
+    const keyId=fire.auth().currentUser.uid;
+    this.setState({ ref:fire.firestore().collection('coordinates2').doc(keyId)})
+    this.ref.collection('markers2')
+      .set({
         lng,
         lat,
       })
@@ -111,7 +113,8 @@ class Home extends Component {
       markerslist: [...this.state.markerslist, newElement],
     });
 
-    db.collection('coordinates').doc(keyId)
+    db.collection('coordinates2').doc(keyId).collection('markers2').doc()
+    //db.collection('coordinates').doc(keyId)
       .set({
         lng,
         lat,
