@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Login from './components/Login';
 import About from './components/About';
 import Home from './components/Home';
-import HomePage from './components/HomePage';
+import LandingPage from './components/LandingPage';
 import Profile from './components/Profile';
 import './App.css';
 import {BrowserRouter as Router, NavLink,Switch, Route } from 'react-router-dom';
@@ -22,12 +22,12 @@ class App extends Component {
 
                   </div>
                   <Switch>
-                    <Route exact path="/" component={HomePage} />
+                    <Route exact path="/" component={LandingPage} />
                     <Route exact path="/about" component={About}/>
                     <Route exact path="/login" component={Login}/>
                     <Route exact path="/mapsPage" component={Home}/>
                     <Route exact path="/profile" component={Profile}/>
-                    <Route exact path="*" component={HomePage} />
+                    <Route exact path="*" component={LandingPage} />
 
                 </Switch>
             </div>

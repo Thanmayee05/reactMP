@@ -13,13 +13,13 @@ class SimpleMap extends Component{
       return (
         <div style={{ height: '600px', width: '900px' , marginTop:'20px'}}>
           <GoogleMapReact
-            bootstrapURLKeys={{ key: 'AIzaSyANrdYhelVz0--nvOP1Ov9556d7xCoI_gE' }}
+            bootstrapURLKeys={{ key: 'AIzaSyDprftdVU4M9RKlH31yZqrPNO5Rj-Y6AKg' }}
             defaultCenter={this.props.center}
             defaultZoom={this.props.zoom}
           >
           <Marker
-            lat={17.3850}
-            lng={78.4867}
+            lat={this.props.center.lat}
+            lng={this.props.center.lng}
             name="My Marker"
             color="rgb(207, 40, 40)"
           />

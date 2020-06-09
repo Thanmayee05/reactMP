@@ -4,11 +4,9 @@ import { GoogleComponent } from "react-google-location";
 import './loginpage.css';
 import Map from './Map';
 import { Redirect} from 'react-router-dom';
-const API_KEY = "AIzaSyDprftdVU4M9RKlH31yZqrPNO5Rj-Y6AK";
+const API_KEY = "AIzaSyDprftdVU4M9RKlH31yZqrPNO5Rj-Y6AKg";
 
 class Home extends Component {
-
-    
     constructor(props) {
         super(props);
         this.ref = fire.firestore().collection('coordinates');
@@ -17,10 +15,11 @@ class Home extends Component {
           imgSrc: "",
           progress: 0,
           markerslist:[],
-          long:'',
-          lat:'', 
+          long:78.491684,
+          lat:17.387140, 
           message:'',
-          logginStatus:true   
+          logginStatus:true,
+          mStatus:false   
         };
     }
     logout = () => {
@@ -28,9 +27,7 @@ class Home extends Component {
       this.setState({ logginStatus: false });
       fire.auth().signOut()
       window.alert("Logging out!");
-      
     }
-    
     delete(id) {
       fire
         .firestore()
@@ -64,27 +61,28 @@ class Home extends Component {
       state[e.target.name] = e.target.value;
       this.setState({markerslist:state});
     }
-    handleMarker=(event)=>{
-      event.preventDefault();
+    handleMarker = e => {
+      e.preventDefault();
+      const keyId=fire.auth().currentUser.uid;
+      const db = fire.firestore();
+      /*db.settings({
+        timestampsInSnapshots: true
+      });*/
       const {long,lat}=this.state;
-      this.ref.add({
-          long,
-          lat
-        }).then((docRef)=>{
-          this.setState({
-            long:'',
-            lat:''
-          });
-          //this.props.history.push("/")
-          window.alert("Added marker");
-        })
-        .catch((error) => {
-          console.error("Error adding document: ", error);
-          window.alert("Error adding");
+      db.collection('coordinates').doc(keyId).set({
+        long,
+        lat
+      }).then(()=>{
+        this.setState({
+          long: '',
+          lat: ''
         });
-      
-    }
-    
+        window.alert("added");
+      }).catch((error) => {
+        console.error("Error adding document: ", error);
+        window.alert("Error adding");
+      }); 
+    };
       handleChange = (event) => {
         if (event.target.files[0]) {
             const image = event.target.files[0];
@@ -100,7 +98,14 @@ class Home extends Component {
             }.bind(this);
         console.log(url)
       };
-      
+      /*mapStatus=(event)=>{
+        const {lat,long}=this.state;
+        if(this.mStatus===true)
+        {
+          lat=this.state.lat,
+          long=this.state.long
+        }
+      }*/
       handleUpload = () => {
         const { image } = this.state;
         const newId = fire.auth().currentUser.uid;
@@ -136,9 +141,7 @@ class Home extends Component {
         else{
           window.alert("Please select your File!")
         }
-        
       };
-       
     render() {
         if(this.state.logginStatus===false)
         {
@@ -167,19 +170,20 @@ class Home extends Component {
                         place: e,
                         lat: e.coordinates.lat,
                         long: e.coordinates.lng,
+                        mapStatus:true,
                       });
                     }}
                   />
                 </div>
                 <div className="imgUpload" style={{marginLeft:"80px"}}>
-                  <Map
-                    google={this.props.google}
-                    center={{lat: 17.387140, lng: 78.491684}}
-                    width="800px"
-                    height="500px"
-                    zoom={15}
-                  />
-                  <br></br>
+                    <Map
+                      google={this.props.google}
+                      center={{lat: this.state.lat, lng: this.state.long}}
+                      width="800px"
+                      height="500px"
+                      zoom={15}
+                    />                    
+                  <br/>
                   <div style={{float:'right',position:'relative', margin:"50px"}}>
                     <input className="inputType" type="file" onChange={this.handleChange} 
                         name="user[image]" 
@@ -221,7 +225,6 @@ class Home extends Component {
                       onClick={this.delete.bind(this,this.state.key)}
                     >Delete</button>
                   </div>
-                    
                   </div>         
                 </div>
               </div>
@@ -229,5 +232,4 @@ class Home extends Component {
         );
     }
 }
-
 export default Home;
