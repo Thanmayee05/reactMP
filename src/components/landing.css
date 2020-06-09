@@ -1,0 +1,28 @@
+.wdt{  
+    width: 100% !important;
+    
+}  
+.imgSlide  
+{  
+    height: 500px ; 
+    float: center;
+    display: flex;
+    flex-direction:row; 
+    margin-left: 250px;
+}  
+.carousel {
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 60rem;
+    width: 100%;
+  }
+.carousel__wrap {
+    background-color: #f5f5f5;
+    position: relative;
+  }
+.carousel__viewport {
+width: 100%;
+overflow: hidden;
+}

@@ -3,7 +3,7 @@ import fire, { storage } from '../config/Fire';
 import { GoogleComponent } from 'react-google-location';
 import Map from './Map';
 import { Redirect } from 'react-router-dom';
-const API_KEY = 'AIzaSyBis2xi_3iI-dRw9A8GeY71myhp0DNTXHo';
+const API_KEY = 'AIzaSyDprftdVU4M9RKlH31yZqrPNO5Rj-Y6AK';
 
 class Home extends Component {
   constructor(props) {
@@ -73,10 +73,9 @@ class Home extends Component {
     console.log(this.state);
   };
 
-  handleMarker = event => {
+  /*handleMarker = event => {
     event.preventDefault();
     const { lng, lat } = this.state;
-
     const newElement = { lat: lat, lng: lng };
     this.setState({
       markerslist: [...this.state.markerslist, newElement],
@@ -84,6 +83,36 @@ class Home extends Component {
 
     this.ref
       .add({
+        lng,
+        lat,
+      })
+      .then(docRef => {
+        this.setState({
+          lng: '',
+          lat: '',
+        });
+        //this.props.history.push("/")
+        window.alert('Added marker');
+      })
+      .catch(error => {
+        console.error('Error adding document: ', error);
+        window.alert('Error adding');
+      });
+  };*/
+
+//The above Handle Marker is replaced because userid can now be stored as doc id.  
+  handleMarker = event => {
+    event.preventDefault();
+    const keyId=fire.auth().currentUser.uid;
+    const db=fire.firestore();
+    const { lng, lat } = this.state;
+    const newElement = { lat: lat, lng: lng };
+    this.setState({
+      markerslist: [...this.state.markerslist, newElement],
+    });
+
+    db.collection('coordinates').doc(keyId)
+      .set({
         lng,
         lat,
       })
