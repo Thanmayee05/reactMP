@@ -132,9 +132,9 @@ class Home extends Component {
         console.error('Error adding document: ', error);
         window.alert('Error adding');
       });
-    //the second insertion into coordinates collection
-    db.collection('coordinates')
-      .doc(keyId)
+
+      //the second insertion into coordinates collection
+      db.collection('coordinates').doc(keyId).collection('Markers').doc()
       .set({
         lng,
         lat,
@@ -156,7 +156,7 @@ class Home extends Component {
   /*getSubCollection()
   {
     const db=fire.firestore();
-    var docRef = db.collection('coordinates/doc/markers2').doc();
+    var docRef = db.collection('coordinates').doc().collection('Markers').doc();
     docRef.get().then(function(doc) {
     if (doc.exists) {
         window.alert("exists");
