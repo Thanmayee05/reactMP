@@ -16,6 +16,9 @@
     "google-map-react": "^1.1.7",
     "history": "^4.10.1",
     "react": "^16.13.1",
+    "react-animations": "^1.0.0",
+    "react-bootstrap": "^1.0.1",
+    "react-count": "^0.2.4",
     "react-dom": "^16.13.1",
     "react-firebase-file-uploader": "^2.4.3",
     "react-geocode": "^0.2.1",
@@ -25,7 +28,11 @@
     "react-idle-timer": "^4.2.12",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "react-simple-image-slider": "^1.0.3",
+    "react-slick": "^0.26.1",
+    "slick-carousel": "^1.8.1",
+    "styled-components": "^5.1.1"
   },
   "scripts": {
     "predeploy": "npm run build",
@@ -51,7 +58,7 @@
     ]
   },
   "devDependencies": {
-    "bootstrap": "^4.4.1",
+    "bootstrap": "^4.5.0",
     "gh-pages": "^2.2.0"
   }
 }

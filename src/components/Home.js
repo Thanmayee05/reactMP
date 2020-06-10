@@ -3,7 +3,7 @@ import fire, { storage } from '../config/Fire';
 import { GoogleComponent } from 'react-google-location';
 import Map from './Map';
 import { Redirect } from 'react-router-dom';
-const API_KEY = 'AIzaSyBis2xi_3iI-dRw9A8GeY71myhp0DNTXHo';
+const API_KEY = 'AIzaSyDprftdVU4M9RKlH31yZqrPNO5Rj-Y6AK';
 
 class Home extends Component {
   constructor(props) {
@@ -19,6 +19,7 @@ class Home extends Component {
       message: '',
       loginStatus: true,
       status: true,
+      //ref : '',
     };
   }
 
@@ -73,17 +74,17 @@ class Home extends Component {
     console.log(this.state);
   };
 
-  handleMarker = event => {
+  /*handleMarker = event => {
     event.preventDefault();
     const { lng, lat } = this.state;
-
     const newElement = { lat: lat, lng: lng };
     this.setState({
       markerslist: [...this.state.markerslist, newElement],
     });
-
-    this.ref
-      .add({
+    const keyId=fire.auth().currentUser.uid;
+    this.setState({ ref:fire.firestore().collection('coordinates2').doc(keyId)})
+    this.ref.collection('markers2')
+      .set({
         lng,
         lat,
       })
@@ -99,8 +100,72 @@ class Home extends Component {
         console.error('Error adding document: ', error);
         window.alert('Error adding');
       });
+  };*/
+
+//The above Handle Marker is replaced because userid can now be stored as doc id.  
+  handleMarker = event => {
+    event.preventDefault();
+    const keyId=fire.auth().currentUser.uid;
+    const db=fire.firestore();
+    const { lng, lat } = this.state;
+    const newElement = { lat: lat, lng: lng };
+    this.setState({
+      markerslist: [...this.state.markerslist, newElement],
+    });
+    db.collection('UserDetails').doc(keyId).collection('Markers').doc()
+      .set({
+        lng,
+        lat,
+      })
+      .then(docRef => {
+        this.setState({
+          lng: '',
+          lat: '',
+        });
+        //this.props.history.push("/")
+        window.alert('Added marker in col1');
+      })
+      .catch(error => {
+        console.error('Error adding document: ', error);
+        window.alert('Error adding');
+      });
+      //the second insertion into coordinates collection
+      db.collection('coordinates').doc(keyId)
+      .set({
+        lng,
+        lat,
+      })
+      .then(docRef => {
+        this.setState({
+          lng: '',
+          lat: '',
+        });
+        //this.props.history.push("/")
+        window.alert('Added marker in col2');
+      })
+      .catch(error => {
+        console.error('Error adding document: ', error);
+        window.alert('Error adding');
+      });
   };
 
+  /*getSubCollection()
+  {
+    const db=fire.firestore();
+    var docRef = db.collection('coordinates/doc/markers2').doc();
+    docRef.get().then(function(doc) {
+    if (doc.exists) {
+        window.alert("exists");
+        console.log("Document data:", doc.data());
+    } else {
+        //doc.data() will be undefined in this case
+        console.log("No such document!");
+        window.alert("not reachable");
+    }
+    }).catch(function(error) {
+        console.log("Error getting document:", error);
+    });
+  }*/ //this is not working :(
   handleChange = event => {
     if (event.target.files[0]) {
       const image = event.target.files[0];
@@ -259,6 +324,9 @@ class Home extends Component {
                 <br />
                 <button onClick={this.delete.bind(this, this.state.key)}>
                   Delete
+                </button>
+                <button onClick={this.getSubCollection}>
+                  getData
                 </button>
               </div>
             </div>

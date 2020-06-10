@@ -7,12 +7,11 @@ class Profile extends Component {
     super(props);
     this.state = {
       uname: '',
-      phoneno: null,
+      phoneno: '',
       email: '',
       city: '',
       formTitle: 'UserProfile',
-      userDetails: [],
-      //msg:''
+      msg:''
     };
   }
   handleChange = e => {
@@ -27,91 +26,40 @@ class Profile extends Component {
       this.setState(state);
     });
   };
-  componentDidUpdate() {
-    //if (prevState !== this.state) {
-    this.writeUserData();
-    //}
-  }
   componentDidMount() {
     this.getUserData();
   }
-  //user = uid => this.db.ref(`users/${uid}`);
-  /*onCollectionUpdate = (querySnapshot) => {
-    const userDetails = [];
-    querySnapshot.forEach((doc) => {
-      const { uname,phoneno,email,city } = doc.data();
-      userDetails.push({
-        key:'',
-        doc, // DocumentSnapshot
-        uname,
-        phoneno,
-        email,
-        city
-      });
-    });
-    this.setState({
-      userDetails
-    });
-  }*/
-
-  writeUserData = () => {
-    fire.database().ref('/').set(this.state);
-    console.log('DATA SAVED');
-  };
   handleSub = e => {
     e.preventDefault();
-    const uname = this.state.uname;
-    const phoneno = this.state.phoneno;
-    const email = this.state.email;
-    const city = this.state.city;
-    const uid = this.state.uid;
-    if (uid && uname && phoneno && email && city) {
-      const { users } = this.state;
-      const devIndex = users.findIndex(data => {
-        return data.uid === uid;
+    const {uname,phoneno,email, city} = this.state;
+    const keyId=fire.auth().currentUser.uid;
+    const db=fire.firestore();
+    db.collection('UserDetails').doc(keyId).set({
+      uname,
+      phoneno,
+      email,
+      city,
+    }).then(docRef => {
+      this.setState({
+        uname: '',
+        phoneno: '',
+        email: '',
+        city: '',
       });
-      users[devIndex].uname = uname;
-      users[devIndex].phoneno = phoneno;
-      users[devIndex].email = email;
-      users[devIndex].city = city;
-      this.setState({ users });
-    } else if (uname && phoneno && email && city) {
-      //const uid = new Date().getTime().toString();
-      const { users } = this.state;
-      console.log(users);
-      users.push({ uname, phoneno, email, city });
-      this.setState({ users });
-    }
-    this.setState({
-      uname: '',
-      phoneno: null,
-      email: '',
-      city: '',
+      window.alert("Profile updated");
+      this.setState({msg:"Profile updated"});
+    })
+    .catch(error=>
+    {
+      console.error('Error adding document: ', error);
+      window.alert('Error adding');
     });
   };
 
-  /*let messageRef = fire.database().ref('profile').orderByKey().limitToLast(100);
-    fire.database().ref('profile').push(this.state.text);
-    if(this.state.phoneno===null)
-    {
-      window.alert("Invalid Phone Number");
-    }
-    else
-    {
-      this.setState({
-        uname :'',
-        phoneno:null,
-        email:'',
-        city:''
-      })
-      this.setState({msg:"Profile updated"});
-    }
-  }*/
   render() {
     if (this.state.msg === 'Profile updated') {
       return <Redirect to='/mapsPage' />;
     }
-    //const { users } = this.state;
     return (
       <div className='bgimg'>
         <div className='form_block'>
