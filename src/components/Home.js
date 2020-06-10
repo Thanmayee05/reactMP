@@ -3,7 +3,7 @@ import fire, { storage } from '../config/Fire';
 import { GoogleComponent } from 'react-google-location';
 import Map from './Map';
 import { Redirect } from 'react-router-dom';
-const API_KEY = 'AIzaSyDprftdVU4M9RKlH31yZqrPNO5Rj-Y6AKg';
+const API_KEY = 'AIzaSyBis2xi_3iI-dRw9A8GeY71myhp0DNTXHo';
 
 class Home extends Component {
   constructor(props) {
@@ -20,6 +20,8 @@ class Home extends Component {
       loginStatus: true,
       status: true,
       //ref : '',
+      msg:true,
+      //count:0,
     };
   }
 
@@ -29,7 +31,6 @@ class Home extends Component {
     fire.auth().signOut();
     window.alert('Logging out!');
   };
-
   delete(id) {
     fire
       .firestore()
@@ -63,9 +64,6 @@ class Home extends Component {
         lat: position.coords.latitude,
       })
     );
-    //const long=this.state.long;
-    //const lat=this.state.lat;
-    //return long,lat;
   }
 
   onchange = e => {
@@ -73,36 +71,6 @@ class Home extends Component {
     this.setState({ ...this.state, [e.target.name]: e.target.value });
     console.log(this.state);
   };
-
-  /*handleMarker = event => {
-    event.preventDefault();
-    const { lng, lat } = this.state;
-    const newElement = { lat: lat, lng: lng };
-    this.setState({
-      markerslist: [...this.state.markerslist, newElement],
-    });
-    const keyId=fire.auth().currentUser.uid;
-    this.setState({ ref:fire.firestore().collection('coordinates2').doc(keyId)})
-    this.ref.collection('markers2')
-      .set({
-        lng,
-        lat,
-      })
-      .then(docRef => {
-        this.setState({
-          lng: '',
-          lat: '',
-        });
-        //this.props.history.push("/")
-        window.alert('Added marker');
-      })
-      .catch(error => {
-        console.error('Error adding document: ', error);
-        window.alert('Error adding');
-      });
-  };*/
-
-  //The above Handle Marker is replaced because userid can now be stored as doc id.
   handleMarker = event => {
     event.preventDefault();
     const keyId = fire.auth().currentUser.uid;
@@ -151,25 +119,22 @@ class Home extends Component {
         console.error('Error adding document: ', error);
         window.alert('Error adding');
       });
-  }; //this is not working :(
+  };
 
-  /*getSubCollection()
-  {
-    const db=fire.firestore();
-    var docRef = db.collection('coordinates').doc().collection('Markers').doc();
-    docRef.get().then(function(doc) {
-    if (doc.exists) {
-        window.alert("exists");
-        console.log("Document data:", doc.data());
-    } else {
-        //doc.data() will be undefined in this case
-        console.log("No such document!");
-        window.alert("not reachable");
-    }
-    }).catch(function(error) {
-        console.log("Error getting document:", error);
-    });
-  }*/ handleChange = event => {
+  getProfiledata = event =>{
+    /*const db=fire.firestore();
+    const keyId = fire.auth().currentUser.uid;
+    db.collection('UserDetails').doc(keyId).collection('Markers').get()
+    .then(response => {
+      window.alert("reached");
+    })
+    .catch(error => {
+      //setError(error);
+      window.alert("not reached!");
+    });*/
+    this.setState({msg : false});
+  }
+   handleChange = event => {
     if (event.target.files[0]) {
       const image = event.target.files[0];
       this.setState(() => ({ image }));
@@ -228,6 +193,10 @@ class Home extends Component {
     if (this.state.loginStatus === false) {
       return <Redirect to='/login' />;
     }
+    if(this.state.msg === false)
+    {
+      return <Redirect to='/myProfile' />;
+    }
 
     return (
       <div>
@@ -245,6 +214,7 @@ class Home extends Component {
               >
                 Logout
               </button>
+              <button onClick={this.getProfiledata}>getData</button>
               <button
                 onClick={this.position}
                 style={{ float: 'left', marginLeft: '10px', marginTop: '30px' }}
@@ -328,7 +298,7 @@ class Home extends Component {
                 <button onClick={this.delete.bind(this, this.state.key)}>
                   Delete
                 </button>
-                <button onClick={this.getSubCollection}>getData</button>
+                
               </div>
             </div>
           </div>

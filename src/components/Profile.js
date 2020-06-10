@@ -64,7 +64,7 @@ class Profile extends Component {
       <div className='bgimg'>
         <div className='form_block'>
           <div id='title'>{this.state.formTitle}</div>
-          <div className='body'>
+          <div className='body' style={{position:"relative"}}>
             <form>
               User Name
               <br />

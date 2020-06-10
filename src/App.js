@@ -4,6 +4,7 @@ import About from './components/About';
 import Home from './components/Home';
 import LandingPage from './components/LandingPage';
 import Profile from './components/Profile';
+import MyAccount from './components/MyAccount';
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -57,6 +58,7 @@ class App extends Component {
               <Route exact path='/login' component={Login} />
               <Route exact path='/mapsPage' component={Home} />
               <Route exact path='/profile' component={Profile} />
+              <Route exact path='/myProfile' component={MyAccount}/>
               <Route exact path='*' component={LandingPage} />
             </Switch>
           </div>
