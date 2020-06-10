@@ -1,25 +1,25 @@
-.page{
-    min-height: 125vh;
-    background-image: url(women_empowered.jpg);
-    background-size: cover;
+.page {
+  min-height: 125vh;
+  background-image: url(./images/women_empowered.jpg);
+  background-size: cover;
 }
 .containers {
-    text-align: center;
-    width: fit-content;
-    border-radius: 10px;
-    border: 1px solid;
-    width: 420px;
-    align-items: center;
-    height: 100%;
-      -webkit-box-shadow: -1px 4px 26px 11px rgba(0,0,0,0.75);
-      -moz-box-shadow: -1px 4px 26px 11px rgba(0,0,0,0.75);
-    margin-top: 20px;
-  } 
-  .containers:hover{
-      background-color: whitesmoke;
-      opacity: 0.8;
-  }
-  /*.header {
+  text-align: center;
+  width: fit-content;
+  border-radius: 10px;
+  border: 1px solid;
+  width: 420px;
+  align-items: center;
+  height: 100%;
+  -webkit-box-shadow: -1px 4px 26px 11px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: -1px 4px 26px 11px rgba(0, 0, 0, 0.75);
+  margin-top: 20px;
+}
+.containers:hover {
+  background-color: whitesmoke;
+  opacity: 0.8;
+}
+/*.header {
     margin-top: 2px;
     overflow: hidden;
     padding: 10px 20px;
@@ -68,4 +68,3 @@
       float: none;
     }
   }*/
-  

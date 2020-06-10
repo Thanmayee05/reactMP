@@ -1,13 +1,13 @@
-.bgimg{
-  background-image: url(women_empowered.jpg);
+.bgimg {
+  background-image: url(./images/women_empowered.jpg);
   min-height: 110vh;
   background-repeat: no-repeat;
   background-size: cover;
   margin-top: 60px;
   padding-top: 80px;
-  
 }
-.form_block{
+
+.form_block {
   width: 300px;
   margin-top: 60px;
   margin-left: auto;
@@ -16,11 +16,12 @@
   padding-right: 25px;
   background-color: rgba(0, 0, 0, 0.75);
   border-radius: 5px;
-    border: 1px solid;
-      -webkit-box-shadow: -1px 4px 26px 11px rgba(0,0,0,0.75);
-      -moz-box-shadow: -1px 4px 26px 11px rgba(0,0,0,0.75);
+  border: 1px solid;
+  -webkit-box-shadow: -1px 4px 26px 11px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: -1px 4px 26px 11px rgba(0, 0, 0, 0.75);
 }
-.form_block > #title{
+
+.form_block > #title {
   padding: 10px;
   color: #fff;
   font-weight: bold;
@@ -29,24 +30,28 @@
   font-family: cursive;
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
-  text-shadow: -1px -1px 0 rgba(0,0,0,.2);
+  text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.2);
 }
-.form_block > .body{
+
+.form_block > .body {
   padding: 0px;
   display: table;
 }
-.form_block:hover{
-  background: rgba(0,0,0,0.8);
+
+.form_block:hover {
+  background: rgba(0, 0, 0, 0.8);
 }
-.body
-{
-  color:rgb(245, 245, 245);
-  font-style: italic ;
+
+.body {
+  color: rgb(245, 245, 245);
+  font-style: italic;
   font-size: 18px;
   padding-top: 30px;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
-input[type='text'],input[type='password'] {
+
+input[type='text'],
+input[type='password'] {
   height: 45px;
   width: 100%;
   margin-bottom: 10px;
@@ -59,7 +64,8 @@ input[type='text'],input[type='password'] {
   border-radius: 6px;
   font-size: 16px;
 }
-.loginBtn{
+
+.loginBtn {
   height: 35px;
   box-sizing: border-box;
   padding: 4px 10px;
@@ -72,10 +78,12 @@ input[type='text'],input[type='password'] {
   margin: 15px;
   color: #d0d0d0;
 }
-.loginBtn:hover{
-  background:  #2d6358;
+
+.loginBtn:hover {
+  background: #2d6358;
 }
-.registerBtn{
+
+.registerBtn {
   float: right;
   background: #02660a;
   color: #fff;
@@ -90,21 +98,24 @@ input[type='text'],input[type='password'] {
   margin-top: -50px;
   margin-right: 10px;
 }
+
 .header a.logo {
   height: 35px;
   width: 40px;
   background-size: cover;
-  background-image: url(pinkwomensilhouettewomensday_386782022.png);
-  border-radius : 2px;
-
+  background-image: url(./images/pinkwomensilhouettewomensday_386782022.png);
+  border-radius: 2px;
 }
-.header a.logo:hover{
+
+.header a.logo:hover {
   opacity: 0.95;
 }
-.registerBtn:hover{
+
+.registerBtn:hover {
   background: #2d6358;
 }
-.Error{
+
+.Error {
   padding: 10px;
   background-color: #feeaea;
   border: 1px solid #fadadb;
@@ -112,25 +123,27 @@ input[type='text'],input[type='password'] {
   border-radius: 3px;
   color: #02660a;
 }
+
 .header {
   margin-top: 0px;
   overflow: hidden;
   padding: 0px;
   font-family: cursive;
   background-color: rgba(0, 0, 0, 0.9);
-
 }
+
 .header a {
   float: left;
   color: whitesmoke;
   text-align: center;
   padding: 10px;
   text-decoration: none;
-  font-size: 20px; 
+  font-size: 20px;
   line-height: 35px;
   border-radius: 4px;
   margin-right: 5px;
 }
+
 .header a:hover {
   background-color: #ddd;
   color: black;
