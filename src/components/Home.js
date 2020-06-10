@@ -113,7 +113,6 @@ class Home extends Component {
       markerslist: [...this.state.markerslist, newElement],
     });
     db.collection('UserDetails').doc(keyId).collection('Markers').doc()
-    //db.collection('coordinates').doc(keyId)
       .set({
         lng,
         lat,
@@ -124,7 +123,25 @@ class Home extends Component {
           lat: '',
         });
         //this.props.history.push("/")
-        window.alert('Added marker');
+        window.alert('Added marker in col1');
+      })
+      .catch(error => {
+        console.error('Error adding document: ', error);
+        window.alert('Error adding');
+      });
+      //the second insertion into coordinates collection
+      db.collection('coordinates').doc(keyId)
+      .set({
+        lng,
+        lat,
+      })
+      .then(docRef => {
+        this.setState({
+          lng: '',
+          lat: '',
+        });
+        //this.props.history.push("/")
+        window.alert('Added marker in col2');
       })
       .catch(error => {
         console.error('Error adding document: ', error);
