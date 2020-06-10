@@ -3,7 +3,7 @@ import fire, { storage } from '../config/Fire';
 import { GoogleComponent } from 'react-google-location';
 import Map from './Map';
 import { Redirect } from 'react-router-dom';
-const API_KEY = 'AIzaSyDprftdVU4M9RKlH31yZqrPNO5Rj-Y6AK';
+const API_KEY = 'AIzaSyDprftdVU4M9RKlH31yZqrPNO5Rj-Y6AKg';
 
 class Home extends Component {
   constructor(props) {
@@ -102,17 +102,20 @@ class Home extends Component {
       });
   };*/
 
-//The above Handle Marker is replaced because userid can now be stored as doc id.  
+  //The above Handle Marker is replaced because userid can now be stored as doc id.
   handleMarker = event => {
     event.preventDefault();
-    const keyId=fire.auth().currentUser.uid;
-    const db=fire.firestore();
+    const keyId = fire.auth().currentUser.uid;
+    const db = fire.firestore();
     const { lng, lat } = this.state;
     const newElement = { lat: lat, lng: lng };
     this.setState({
       markerslist: [...this.state.markerslist, newElement],
     });
-    db.collection('UserDetails').doc(keyId).collection('Markers').doc()
+    db.collection('UserDetails')
+      .doc(keyId)
+      .collection('Markers')
+      .doc()
       .set({
         lng,
         lat,
@@ -129,6 +132,7 @@ class Home extends Component {
         console.error('Error adding document: ', error);
         window.alert('Error adding');
       });
+
       //the second insertion into coordinates collection
       db.collection('coordinates').doc(keyId).collection('Markers').doc()
       .set({
@@ -147,7 +151,7 @@ class Home extends Component {
         console.error('Error adding document: ', error);
         window.alert('Error adding');
       });
-  };
+  }; //this is not working :(
 
   /*getSubCollection()
   {
@@ -165,8 +169,7 @@ class Home extends Component {
     }).catch(function(error) {
         console.log("Error getting document:", error);
     });
-  }*/ //this is not working :(
-  handleChange = event => {
+  }*/ handleChange = event => {
     if (event.target.files[0]) {
       const image = event.target.files[0];
       this.setState(() => ({ image }));
@@ -325,9 +328,7 @@ class Home extends Component {
                 <button onClick={this.delete.bind(this, this.state.key)}>
                   Delete
                 </button>
-                <button onClick={this.getSubCollection}>
-                  getData
-                </button>
+                <button onClick={this.getSubCollection}>getData</button>
               </div>
             </div>
           </div>
