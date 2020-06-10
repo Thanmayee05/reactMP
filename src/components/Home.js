@@ -112,8 +112,7 @@ class Home extends Component {
     this.setState({
       markerslist: [...this.state.markerslist, newElement],
     });
-
-    db.collection('coordinates2').doc(keyId).collection('markers2').doc()
+    db.collection('UserDetails').doc(keyId).collection('Markers').doc()
     //db.collection('coordinates').doc(keyId)
       .set({
         lng,
@@ -133,6 +132,23 @@ class Home extends Component {
       });
   };
 
+  /*getSubCollection()
+  {
+    const db=fire.firestore();
+    var docRef = db.collection('coordinates/doc/markers2').doc();
+    docRef.get().then(function(doc) {
+    if (doc.exists) {
+        window.alert("exists");
+        console.log("Document data:", doc.data());
+    } else {
+        //doc.data() will be undefined in this case
+        console.log("No such document!");
+        window.alert("not reachable");
+    }
+    }).catch(function(error) {
+        console.log("Error getting document:", error);
+    });
+  }*/ //this is not working :(
   handleChange = event => {
     if (event.target.files[0]) {
       const image = event.target.files[0];
@@ -291,6 +307,9 @@ class Home extends Component {
                 <br />
                 <button onClick={this.delete.bind(this, this.state.key)}>
                   Delete
+                </button>
+                <button onClick={this.getSubCollection}>
+                  getData
                 </button>
               </div>
             </div>
