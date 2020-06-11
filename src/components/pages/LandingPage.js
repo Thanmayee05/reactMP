@@ -31,19 +31,11 @@ class LandingPage extends Component {
               <span style={{color:"white", textAlign:"center", fontSize:"30px", marginTop:'80px'}}>
                 Welcome To<br/>
                 <span style={{fontSize:"50px"}} >
-                  She Help
+                  She<span style={{color:'blue'}}>Help</span>
                 </span><br/>
                 Think Safe<br/>Act Safe<br/>Be Safe<br/>Because you deserve
               </span>
-              <div
-                className='imgSlide'
-                style={{
-                  marginTop: '0px',
-                  position:'relative',
-                  flexDirection:'column',
-                  display:'flex',
-                }}
-              >
+              <div className='imgSlide'>
                   <SimpleImageSlider
                     width={850}
                     height={500}
