@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import '../App.css';
 import { BrowserRouter } from 'react-router-dom';
 import SimpleImageSlider from 'react-simple-image-slider';
 import './landing.css';
-import gPic from '../images/gandhisays.jpg';
-import rPic from '../images/road.jpg';
+import gPic from '../../images/gandhisays.jpg';
+import rPic from '../../images/road.jpg';
 import styled, { keyframes } from 'styled-components';
 import { bounce } from 'react-animations';
 

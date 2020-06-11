@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import fire, { storage } from '../config/Fire';
+import fire, { storage } from '../../config/Fire';
 import { GoogleComponent } from 'react-google-location';
-import Map from './Map';
+import Map from '../maps/Map';
 import { Redirect } from 'react-router-dom';
-const API_KEY = 'AIzaSyBis2xi_3iI-dRw9A8GeY71myhp0DNTXHo';
+// const API_KEY = 'AIzaSyBis2xi_3iI-dRw9A8GeY71myhp0DNTXHo';
+const API_KEY = 'AIzaSyDprftdVU4M9RKlH31yZqrPNO5Rj-Y6AKg';
 
 class Home extends Component {
   constructor(props) {
@@ -20,7 +21,7 @@ class Home extends Component {
       loginStatus: true,
       status: true,
       //ref : '',
-      msg:true,
+      msg: true,
       //count:0,
     };
   }
@@ -164,7 +165,7 @@ class Home extends Component {
       });
   };
 
-  getProfiledata = event =>{
+  getProfiledata = event => {
     /*const db=fire.firestore();
     const keyId = fire.auth().currentUser.uid;
     db.collection('UserDetails').doc(keyId).collection('Markers').get()
@@ -175,9 +176,9 @@ class Home extends Component {
       //setError(error);
       window.alert("not reached!");
     });*/
-    this.setState({msg : false});
-  }
-   handleChange = event => {
+    this.setState({ msg: false });
+  };
+  handleChange = event => {
     if (event.target.files[0]) {
       const image = event.target.files[0];
       this.setState(() => ({ image }));
@@ -236,8 +237,7 @@ class Home extends Component {
     if (this.state.loginStatus === false) {
       return <Redirect to='/login' />;
     }
-    if(this.state.msg === false)
-    {
+    if (this.state.msg === false) {
       return <Redirect to='/myProfile' />;
     }
 
@@ -335,7 +335,6 @@ class Home extends Component {
                 <button onClick={this.delete.bind(this, this.state.key)}>
                   Delete
                 </button>
-                
               </div>
             </div>
           </div>
