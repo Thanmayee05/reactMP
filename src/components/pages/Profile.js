@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import fire from '../config/Fire';
+import fire from '../../config/Fire';
 import { Redirect } from 'react-router-dom';
 
 class Profile extends Component {
@@ -11,7 +11,7 @@ class Profile extends Component {
       email: '',
       city: '',
       formTitle: 'UserProfile',
-      msg:''
+      msg: '',
     };
   }
   handleChange = e => {
@@ -31,29 +31,31 @@ class Profile extends Component {
   }
   handleSub = e => {
     e.preventDefault();
-    const {uname,phoneno,email, city} = this.state;
-    const keyId=fire.auth().currentUser.uid;
-    const db=fire.firestore();
-    db.collection('UserDetails').doc(keyId).set({
-      uname,
-      phoneno,
-      email,
-      city,
-    }).then(docRef => {
-      this.setState({
-        uname: '',
-        phoneno: '',
-        email: '',
-        city: '',
+    const { uname, phoneno, email, city } = this.state;
+    const keyId = fire.auth().currentUser.uid;
+    const db = fire.firestore();
+    db.collection('UserDetails')
+      .doc(keyId)
+      .set({
+        uname,
+        phoneno,
+        email,
+        city,
+      })
+      .then(docRef => {
+        this.setState({
+          uname: '',
+          phoneno: '',
+          email: '',
+          city: '',
+        });
+        window.alert('Profile updated');
+        this.setState({ msg: 'Profile updated' });
+      })
+      .catch(error => {
+        console.error('Error adding document: ', error);
+        window.alert('Error adding');
       });
-      window.alert("Profile updated");
-      this.setState({msg:"Profile updated"});
-    })
-    .catch(error=>
-    {
-      console.error('Error adding document: ', error);
-      window.alert('Error adding');
-    });
   };
 
   render() {
@@ -64,7 +66,7 @@ class Profile extends Component {
       <div className='bgimg'>
         <div className='form_block'>
           <div id='title'>{this.state.formTitle}</div>
-          <div className='body' style={{position:"relative"}}>
+          <div className='body' style={{ position: 'relative' }}>
             <form>
               User Name
               <br />
