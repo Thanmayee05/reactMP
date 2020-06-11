@@ -71,6 +71,46 @@ class Home extends Component {
     this.setState({ ...this.state, [e.target.name]: e.target.value });
     console.log(this.state);
   };
+
+  handleSearchChange = e => {
+    console.log(e);
+    this.setState({
+      ...this.state,
+      place: e,
+      lat: e.coordinates.lat,
+      lng: e.coordinates.lng,
+    });
+  };
+
+  /*handleMarker = event => {
+    event.preventDefault();
+    const { lng, lat } = this.state;
+    const newElement = { lat: lat, lng: lng };
+    this.setState({
+      markerslist: [...this.state.markerslist, newElement],
+    });
+    const keyId=fire.auth().currentUser.uid;
+    this.setState({ ref:fire.firestore().collection('coordinates2').doc(keyId)})
+    this.ref.collection('markers2')
+      .set({
+        lng,
+        lat,
+      })
+      .then(docRef => {
+        this.setState({
+          lng: '',
+          lat: '',
+        });
+        //this.props.history.push("/")
+        window.alert('Added marker');
+      })
+      .catch(error => {
+        console.error('Error adding document: ', error);
+        window.alert('Error adding');
+      });
+  };*/
+
+  //The above Handle Marker is replaced because userid can now be stored as doc id.
   handleMarker = event => {
     event.preventDefault();
     const keyId = fire.auth().currentUser.uid;
@@ -101,8 +141,11 @@ class Home extends Component {
         window.alert('Error adding');
       });
 
-      //the second insertion into coordinates collection
-      db.collection('coordinates').doc(keyId).collection('Markers').doc()
+    //the second insertion into coordinates collection
+    db.collection('coordinates')
+      .doc(keyId)
+      .collection('Markers')
+      .doc()
       .set({
         lng,
         lat,
@@ -231,19 +274,13 @@ class Home extends Component {
                 coordinates={true}
                 locationBoxStyle={'custom-style'}
                 locationListStyle={'custom-style-list'}
-                onChange={e => {
-                  this.setState({
-                    place: e,
-                    lat: e.coordinates.lat,
-                    lng: e.coordinates.lng,
-                  });
-                }}
+                onChange={this.handleSearchChange}
               />
             </div>
             <div className='imgUpload' style={{ marginLeft: '80px' }}>
               <Map
                 google={this.props.google}
-                center={{ lat: this.state.lat, lng: this.state.lng }}
+                location={{ lat: this.state.lat, lng: this.state.lng }}
                 width='800px'
                 height='500px'
                 zoom={12}
