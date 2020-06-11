@@ -11,6 +11,22 @@ body {
   margin-top: 60px;
   padding-top: 80px;
 }
+.landingbg {
+  background-image: url(./images/women_empowered.jpg);
+  min-height: 110vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin-top: 0px;
+  padding-top: 80px;
+}
+.abtbg{
+  background-image: url(./images/bg4.jpeg);
+  min-height: 110vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin-top: 60px;
+  padding-top: 30px;
+}
 
 .form_block {
   width: 300px;
@@ -23,7 +39,7 @@ body {
   border-radius: 5px;
   border: 1px solid;
   -webkit-box-shadow: -1px 4px 26px 11px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: -1px 4px 26px 11px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: -1px 4px 26px 11px rgba(255, 255, 255, 0.75);
 }
 
 .form_block > #title {

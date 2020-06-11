@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import fire, { storage } from '../../config/Fire';
-//import { Redirect } from 'react-router-dom';
+import fire from '../../config/Fire';
+//import { Redirect } from 'react-router';
+import { Redirect } from 'react-router-dom';
 
 class MyAccount extends Component {
   constructor(props) {
@@ -18,10 +19,16 @@ class MyAccount extends Component {
       city: '',
     };
   }
-  /*UNSAFE_componentWillUpdate()
-      {
-        this.getProfiledata();
-      }*/
+  /*getUserData = () => {
+    let ref = fire.firestore().collection("user");
+    ref.on('value', snapshot => {
+      const state = snapshot.val();
+      this.setState(state);
+    });
+  };
+  componentDidMount() {
+    this.getUserData();
+  }*/
   getmarkersList = event => {
     const db = fire.firestore();
     let udata = [];
@@ -48,7 +55,7 @@ class MyAccount extends Component {
   getProfiledata = event => {
     const db = fire.firestore();
     let data = [];
-    const { uname, email, phoneno, city, lat, lng } = this.state;
+    //const { uname, email, phoneno, city, lat, lng } = this.state;
     const keyId = fire.auth().currentUser.uid;
     db.collection('UserDetails')
       .doc(keyId)
@@ -66,7 +73,15 @@ class MyAccount extends Component {
         this.setState({ userDe: data });
       });
   };
+  shiftToLogin=event=>
+  {
+    this.setState({msg:false});
+  }
   render() {
+    if(this.state.msg===false)
+    {
+      return <Redirect to='/mapsPage'/>;
+    }
     const { markerslist, userDe } = this.state;
     return (
       <div className='bgimg'>
@@ -93,13 +108,14 @@ class MyAccount extends Component {
               <br />
               latitutde:
               <br />
-              {this.state.lat}
+              {markerslist.lat}
               <br />
               longitude:
               <br />
               {markerslist.lng}
               <br />
               <button onClick={this.getProfiledata}>Submit</button>
+              <button onClick={this.shiftToLogin}>Close</button>
             </form>
           </div>
         </div>

@@ -19,16 +19,16 @@ class Profile extends Component {
       [e.target.name]: e.target.value,
     });
   };
-  getUserData = () => {
+  /*getUserData = () => {
     let ref = fire.database().ref('/');
     ref.on('value', snapshot => {
       const state = snapshot.val();
       this.setState(state);
     });
-  };
-  componentDidMount() {
+  };*/
+  /*componentDidMount() {
     this.getUserData();
-  }
+  }*/
   handleSub = e => {
     e.preventDefault();
     const { uname, phoneno, email, city } = this.state;
@@ -42,7 +42,7 @@ class Profile extends Component {
         email,
         city,
       })
-      .then(docRef => {
+      .then(() => {
         this.setState({
           uname: '',
           phoneno: '',
@@ -77,6 +77,7 @@ class Profile extends Component {
                 onChange={this.handleChange}
                 required
                 name='uname'
+                autoComplete='off'
               />
               Phone Number
               <br />
@@ -88,6 +89,7 @@ class Profile extends Component {
                 placeholder='PhoneNumber'
                 onChange={this.handleChange}
                 name='phoneno'
+                autoComplete='off'
               />
               Email ID
               <br />
@@ -98,6 +100,7 @@ class Profile extends Component {
                 required
                 onChange={this.handleChange}
                 name='email'
+                autoComplete='off'
               />
               City
               <br />
@@ -108,10 +111,13 @@ class Profile extends Component {
                 placeholder='CityName'
                 required
                 name='city'
+                autoComplete='off'
               />
               <br />
               <br />
-              <button onClick={this.handleSub}>SUBMIT</button>
+              <button className='registerBtn' style={{position:"relative",marginBottom:"15px",marginTop:'1px',marginRight:'125px',float:'center'}} onClick={this.handleSub}>
+                Submit
+              </button>
             </form>
           </div>
         </div>
