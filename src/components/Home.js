@@ -74,6 +74,16 @@ class Home extends Component {
     console.log(this.state);
   };
 
+  handleSearchChange = e => {
+    console.log(e);
+    this.setState({
+      ...this.state,
+      place: e,
+      lat: e.coordinates.lat,
+      lng: e.coordinates.lng,
+    });
+  };
+
   /*handleMarker = event => {
     event.preventDefault();
     const { lng, lat } = this.state;
@@ -133,8 +143,11 @@ class Home extends Component {
         window.alert('Error adding');
       });
 
-      //the second insertion into coordinates collection
-      db.collection('coordinates').doc(keyId).collection('Markers').doc()
+    //the second insertion into coordinates collection
+    db.collection('coordinates')
+      .doc(keyId)
+      .collection('Markers')
+      .doc()
       .set({
         lng,
         lat,
@@ -261,19 +274,13 @@ class Home extends Component {
                 coordinates={true}
                 locationBoxStyle={'custom-style'}
                 locationListStyle={'custom-style-list'}
-                onChange={e => {
-                  this.setState({
-                    place: e,
-                    lat: e.coordinates.lat,
-                    lng: e.coordinates.lng,
-                  });
-                }}
+                onChange={this.handleSearchChange}
               />
             </div>
             <div className='imgUpload' style={{ marginLeft: '80px' }}>
               <Map
                 google={this.props.google}
-                center={{ lat: this.state.lat, lng: this.state.lng }}
+                location={{ lat: this.state.lat, lng: this.state.lng }}
                 width='800px'
                 height='500px'
                 zoom={12}

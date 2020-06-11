@@ -15,11 +15,12 @@ class SimpleMap extends Component {
         <GoogleMapReact
           bootstrapURLKeys={{ key: 'AIzaSyDprftdVU4M9RKlH31yZqrPNO5Rj-Y6AKg' }}
           defaultCenter={this.props.center}
+          center={this.props.location}
           defaultZoom={this.props.zoom}
         >
           <Marker
-            lat={this.props.center.lat}
-            lng={this.props.center.lng}
+            lat={this.props.location.lat}
+            lng={this.props.location.lng}
             name='My Marker'
             color='rgb(207, 40, 40)'
           />
