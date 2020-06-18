@@ -3,6 +3,8 @@ import fire, { storage } from '../../config/Fire';
 import { GoogleComponent } from 'react-google-location';
 import Map from '../maps/Map';
 import { Redirect } from 'react-router-dom';
+import './landing.css';
+
 const API_KEY = 'AIzaSyBis2xi_3iI-dRw9A8GeY71myhp0DNTXHo';
 
 class Home extends Component {
@@ -243,7 +245,7 @@ class Home extends Component {
     return (
       <div>
         <div>
-          <div className='mapsbg'>
+          <div className='mapsClass'>
             <div style={{ textAlign: 'center', fontSize: '40px' }}>
               Welcome User!
               <button
@@ -265,7 +267,7 @@ class Home extends Component {
               </button>
             </div>
             <br />
-            <div>
+            <div className="searchBoxStyle">
               <GoogleComponent
                 apiKey={API_KEY}
                 language={'en'}
@@ -274,7 +276,6 @@ class Home extends Component {
                 locationBoxStyle={'custom-style'}
                 locationListStyle={'custom-style-list'}
                 onChange={this.handleSearchChange}
-                className="searchBoxStyle"
               />
             </div>
             <div className='imgUpload' style={{ marginLeft: '80px' }}>

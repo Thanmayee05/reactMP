@@ -8,15 +8,15 @@
   display: flex;
   flex-direction: row;
 }
-.mapsbg {
+.mapbg {
   background-image: url(../images/women_empowered.jpg);
   min-height: 130vh;
   background-repeat: no-repeat;
   background-size: cover;
   margin-top: 60px;
   padding-top: 80px;
+  display: flex;
 }
-
 .markerBlock {
   position: absolute;
   top: 50%;

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import fire from '../../config/Fire';
-//import { Redirect } from 'react-router';
 import { Redirect } from 'react-router-dom';
 
 class MyAccount extends Component {
@@ -19,17 +18,28 @@ class MyAccount extends Component {
       city: '',
     };
   }
-  /*getUserData = () => {
-    let ref = fire.firestore().collection("user");
-    ref.on('value', snapshot => {
-      const state = snapshot.val();
-      this.setState(state);
-    });
-  };
-  componentDidMount() {
-    this.getUserData();
-  }*/
+  
   getmarkersList = event => {
+    const db = fire.firestore();
+    let udata = [];
+    window.alert('reached 1');
+    //const {uname,email,phoneno,city}=this.state;
+    const keyId = fire.auth().currentUser.uid;
+    window.alert(keyId);
+    db.collection('UserDetails').doc(keyId).collection('Markers')
+      .get().then(snapshot => {
+        window.alert('reached2');
+        snapshot.forEach(doc => {
+          udata.push({ lat: doc.lat, lng: doc.lng });
+        });
+        this.setState({ markerslist: udata });
+      })
+      .catch(error => {
+        window.alert('not reached!');
+      });
+  }; // worked till some extent!
+
+  /*getmarkersList = event => {
     const db = fire.firestore();
     let udata = [];
     window.alert('reached 1');
@@ -37,47 +47,57 @@ class MyAccount extends Component {
     window.alert('REached 2');
     const keyId = fire.auth().currentUser.uid;
     window.alert(keyId);
-    db.collection('UserDetails')
-      .doc(keyId)
-      .collection('Markers')
-      .get()
-      .then(snapshot => {
+    const ref=db.collection('UserDetails').doc(keyId).collection('Markers');
+      ref.get().doc().then(doc => {
         window.alert('reached');
         snapshot.forEach(doc => {
           udata.push({ lat: doc.udata().lat, lng: doc.udata().lng });
         });
-        this.setState({ markerslist: udata });
+        if(doc.exists)
+        {
+          this.setState({lat:doc.data().lat,lng:doc.data().lng});
+        }
+        //this.setState({ markerslist: udata });
       })
       .catch(error => {
         window.alert('not reached!');
-      });
-  };
+      });*/
+  
+  
+ 
+
   getProfiledata = event => {
-    const db = fire.firestore();
+    //const db = fire.firestore();
+    const fireInstance = fire.firestore().instance;
     let data = [];
+    window.alert("reached");
     //const { uname, email, phoneno, city, lat, lng } = this.state;
     const keyId = fire.auth().currentUser.uid;
-    db.collection('UserDetails')
+    fireInstance.collection('UserDetails')
       .doc(keyId)
       .get()
       .then(snapshot => {
-        window.alert('reached');
-        snapshot.forEach((doc, key) => {
+        window.alert('reached1');
+        snapshot.documents.forEach((result, key) => {
           data.push({
-            uname: doc.data().uname,
-            email: doc.data().email,
-            phoneno: doc.data().phoneno,
-            city: doc.data().city,
+            uname: result.data().uname,
+            email: result.data().email,
+            phoneno: result.data().phoneno,
+            city: result.data().city,
           });
+          window.alert(result.uname)
         });
         this.setState({ userDe: data });
       });
   };
-  shiftToLogin=event=>
+  shiftToLogin=(event)=>
+    {
+      this.setState({msg:false});
+    };
+  
+  render() 
   {
-    this.setState({msg:false});
-  }
-  render() {
+    
     if(this.state.msg===false)
     {
       return <Redirect to='/mapsPage'/>;
@@ -122,9 +142,7 @@ class MyAccount extends Component {
       </div>
     );
   }
-  /*componentDidMount()
-    {
-        this.getmarkersList();
-    }*/
 }
 export default MyAccount;
+
+
