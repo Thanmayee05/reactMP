@@ -5,7 +5,7 @@ import Map from '../maps/Map';
 import { Redirect } from 'react-router-dom';
 import './landing.css';
 
-const API_KEY = 'AIzaSyBis2xi_3iI-dRw9A8GeY71myhp0DNTXHo';
+const API_KEY = 'AIzaSyDprftdVU4M9RKlH31yZqrPNO5Rj-Y6AKg';
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -125,7 +125,7 @@ class Home extends Component {
             .getDownloadURL()
             .then(url => {
               this.setState({ ...this.state, imgSrc: url });
-              window.alert('Uploaded successfully');
+              window.alert('Uploaded Successfully');
               window.location.reload(false);
             });
         }
@@ -153,7 +153,7 @@ class Home extends Component {
           lat: '',
         });
         //this.props.history.push("/")
-        window.alert('Added marker in col1');
+        window.alert('Marker Added');
       })
       .catch(error => {
         console.error('Error adding document: ', error);
