@@ -22,11 +22,9 @@ class MyAccount extends Component {
   getmarkersList = event => {
     const db = fire.firestore();
     let udata = [];
-    //window.alert('reached 1');
-    //const {uname,email,phoneno,city}=this.state;
     const keyId = fire.auth().currentUser.uid;
-    window.alert(keyId);
-    db.collection('UserDetails').doc(keyId).collection('Markers')
+    //window.alert(keyId);
+    db.collection('coordinates').doc(keyId).collection('Markers')
       .get().then(snapshot => {
         window.alert('reached2');
         snapshot.forEach(doc => {
@@ -42,59 +40,10 @@ class MyAccount extends Component {
       .catch(error => {
         window.alert('not reached!');
       });
-  }; // worked till some extent!
-
-  /*getmarkersList = event => {
-    const db = fire.firestore();
-    let udata = [];
-    window.alert('reached 1');
-    //const {uname,email,phoneno,city}=this.state;
-    window.alert('REached 2');
-    const keyId = fire.auth().currentUser.uid;
-    window.alert(keyId);
-    const ref=db.collection('UserDetails').doc(keyId).collection('Markers');
-      ref.get().doc().then(doc => {
-        window.alert('reached');
-        snapshot.forEach(doc => {
-          udata.push({ lat: doc.udata().lat, lng: doc.udata().lng });
-        });
-        if(doc.exists)
-        {
-          this.setState({lat:doc.data().lat,lng:doc.data().lng});
-        }
-        //this.setState({ markerslist: udata });
-      })
-      .catch(error => {
-        window.alert('not reached!');
-      });*/
-  
-  
- 
+  };
 
   getProfiledata = event => {
-    const db = fire.firestore();
-    //const fireInstance = fire.firestore().instance;
-    let data = [];
-    //window.alert("reached");
-    //const { uname, email, phoneno, city, lat, lng } = this.state;
     const keyId = fire.auth().currentUser.uid;
-    db.collection('UserDetails')
-      .doc(keyId)
-      .get()
-      .then(response => {
-        window.alert('reached1');
-        response.documents.forEach((result, key) => {
-          data.push({
-            uname: result.data().uname,
-            email: result.data().email,
-            phoneno: result.data().phoneno,
-            city: result.data().city,
-          });
-          console.log(result.data().uname);
-        });
-        this.setState({ userDe: [...this.state.userDe, data] });
-      });
-      /*const keyId = fire.auth().currentUser.uid;
     fire
       .firestore()
       .collection("UserDetails")
@@ -102,7 +51,6 @@ class MyAccount extends Component {
       .get()
       .then((response) => {
         window.alert("Reached then");
-        console.log("EEEEEEE",response);
         const Marks = [];
         response.forEach((document) => {
           const Mark = {
@@ -118,16 +66,13 @@ class MyAccount extends Component {
         this.setState({
           markerslist: Marks,
         });
-      });*/
+      });
   };
 
-
-  // YOOO!! Haan!
   shiftToLogin=(event)=>
     {
       this.setState({...this.state, msg:false});
     };
-  
   render() 
   {
     

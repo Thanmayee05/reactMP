@@ -5,8 +5,7 @@ import Map from '../maps/Map';
 import { Redirect } from 'react-router-dom';
 import './landing.css';
 
-const API_KEY = 'AIzaSyDprftdVU4M9RKlH31yZqrPNO5Rj-Y6AKg';
-
+const API_KEY = 'AIzaSyBis2xi_3iI-dRw9A8GeY71myhp0DNTXHo';
 class Home extends Component {
   constructor(props) {
     super(props);
