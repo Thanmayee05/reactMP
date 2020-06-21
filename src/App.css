@@ -2,21 +2,14 @@ body {
   margin: 0;
   padding: 0;
 }
-.bgimg {
-  background-image: url(./images/dark-blue-theme-zl5.jpg);
-  min-height: 110vh;
-  background-repeat: no-repeat;
-  background-size: cover;
-  margin-top: 0px;
-  padding-top: 80px;
-}
 .mapsClass {
-  background-image: url(./images/navy-blue-wallpaper-hd-–-hd-wallpaper-9.jpg);
+  background-image: url(./images/Background-patterns-web-dark-website-blogger-beautiful-image-.jpg);
   min-height: 130vh;
   background-repeat: no-repeat;
   background-size: cover;
   margin-top: 0px;
-  padding-top: 80px;
+  padding-top: 60px;
+  color: #d0d0d0;
 }
 .markerBlock {
   position: absolute;
@@ -35,16 +28,20 @@ body {
   z-index: 1;
 }
 .searchBoxStyle {
-  width:825px;
+  width:880px;
   flex-direction: column;
   margin-left: 80px;
   height: auto;
   border-radius: 10px;
   margin-bottom: 30px;
+  color: black;
+  background-color: rgb(255, 255, 255);
 }
-.searchBoxStyle:hover{
-  background-color: rgb(245, 245, 245);
-  opacity: 0.9;
+.imgBorder{
+  outline-style: solid;
+  outline-color: #d0d0d0;
+  outline-width: 5px;
+  padding: 10px; 
 }
 .imgUpload {
   float: center;
@@ -53,21 +50,32 @@ body {
   display: flex;
   flex-direction: row;
 }
+.buttoncss {
+  height: 45px;
+  padding: 5px;
+  background-color: #d3d3d3;
+  border: 3px solid #ffffff;
+  border-radius: 4px;
+  margin: 10px;
+  font-family: cursive;
+  color: #070707;
+}
+
 .landingbg {
-  background-image: url(./images/dark-blue-theme-zl5.jpg);
+  background-image: url(./images/Background-patterns-web-dark-website-blogger-beautiful-image-.jpg);
   min-height: 110vh;
   background-repeat: no-repeat;
   background-size: cover;
   margin-top: 0px;
   padding-top: 80px;
 }
-.abtbg{
-  background-image: url(./images/women_empowered.jpg);
+.bgimg {
+  background-image: url(./images/Background-patterns-web-dark-website-blogger-beautiful-image-.jpg);
   min-height: 110vh;
   background-repeat: no-repeat;
   background-size: cover;
   margin-top: 0px;
-  padding-top: 30px;
+  padding-top: 80px;
 }
 
 .form_block {
@@ -175,9 +183,8 @@ input[type='password'] {
 }
 .imgSlide
 {
-  margin-top:0px;
-  flex-direction: column;
-  position: relative;
+  margin-top:50px;
+  align-content: center;
   border: 5px solid white;
 }
 .header a:hover {

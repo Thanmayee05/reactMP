@@ -22,7 +22,7 @@ class MyAccount extends Component {
   getmarkersList = event => {
     const db = fire.firestore();
     let udata = [];
-    window.alert('reached 1');
+    //window.alert('reached 1');
     //const {uname,email,phoneno,city}=this.state;
     const keyId = fire.auth().currentUser.uid;
     window.alert(keyId);
@@ -32,7 +32,12 @@ class MyAccount extends Component {
         snapshot.forEach(doc => {
           udata.push({ lat: doc.lat, lng: doc.lng });
         });
-        this.setState({ markerslist: udata });
+        const { lng, lat } = this.state;
+        const newElement = { lat: lat, lng: lng };
+        this.setState({
+          markerslist: [...this.state.markerslist, newElement],
+        });
+        //this.setState({ markerslist: udata });
       })
       .catch(error => {
         window.alert('not reached!');
@@ -67,32 +72,60 @@ class MyAccount extends Component {
  
 
   getProfiledata = event => {
-    //const db = fire.firestore();
-    const fireInstance = fire.firestore().instance;
+    const db = fire.firestore();
+    //const fireInstance = fire.firestore().instance;
     let data = [];
-    window.alert("reached");
+    //window.alert("reached");
     //const { uname, email, phoneno, city, lat, lng } = this.state;
     const keyId = fire.auth().currentUser.uid;
-    fireInstance.collection('UserDetails')
+    db.collection('UserDetails')
       .doc(keyId)
       .get()
-      .then(snapshot => {
+      .then(response => {
         window.alert('reached1');
-        snapshot.documents.forEach((result, key) => {
+        response.documents.forEach((result, key) => {
           data.push({
             uname: result.data().uname,
             email: result.data().email,
             phoneno: result.data().phoneno,
             city: result.data().city,
           });
-          window.alert(result.uname)
+          console.log(result.data().uname);
         });
-        this.setState({ userDe: data });
+        this.setState({ userDe: [...this.state.userDe, data] });
       });
+      /*const keyId = fire.auth().currentUser.uid;
+    fire
+      .firestore()
+      .collection("UserDetails")
+      .doc(keyId)
+      .get()
+      .then((response) => {
+        window.alert("Reached then");
+        console.log("EEEEEEE",response);
+        const Marks = [];
+        response.forEach((document) => {
+          const Mark = {
+            uname: document.uname,
+            city: document.city,
+            phoneno: document.phoneno,
+            email: document.email,
+          };
+          Marks.push(Mark);
+          console.log(Mark.uname);
+          console.log(Mark.city);
+        });
+        this.setState({
+          markerslist: Marks,
+        });
+      });*/
   };
+
+
+  // YOOO!! Haan!
   shiftToLogin=(event)=>
     {
-      this.setState({msg:false});
+      this.setState({...this.state, msg:false});
     };
   
   render() 
