@@ -6,11 +6,8 @@ import gPic from '../../images/gandhisays.jpg';
 import sPic from '../../images/strong.jpg';
 import wPic from '../../images/womenStrong.jpg';
 import mPic from '../../images/malala2.png';
-//import pPic from '../../images/priceless2.jpg';
 import tPic from '../../images/protection3.jpg';
 import oPic from '../../images/obama2.jpg';
-//import styled, { keyframes } from 'styled-components';
-//import { bounce } from 'react-animations';
 
 class LandingPage extends Component {
   render() {
@@ -24,34 +21,18 @@ class LandingPage extends Component {
           <div className='landingbg' >
             <div style={{
                 fontSize:'30px',
-                margin:'60px',
                 display:'flex',
               }}
-            >
-              <span style={{color:"white", textAlign:"center", fontSize:"30px", marginTop:'80px'}}>
-                Welcome To<br/>
-                <span style={{fontSize:"50px"}} >
-                  She Help
-                </span><br/>
-                Think Safe<br/>Act Safe<br/>Be Safe<br/>Because you deserve
-              </span>
-              <div
-                className='imgSlide'
-                style={{
-                  marginTop: '0px',
-                  position:'relative',
-                  flexDirection:'column',
-                  display:'flex',
-                }}
-              >
-                  <SimpleImageSlider
-                    width={850}
-                    height={500}
-                    images={images}
-                    slideDuration={1}
-                    navStyle={1}
-                  />
-              </div>
+            >  
+            <div className='imgSlide'>
+              <SimpleImageSlider
+                width={1000} 
+                height={500}
+                images={images}
+                slideDuration={1}
+                navStyle={1}
+              />
+            </div>
             </div>
           </div>
         </div>

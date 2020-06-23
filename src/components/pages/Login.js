@@ -22,9 +22,9 @@ class Login extends Component {
   authListener() {
     fire.auth().onAuthStateChanged(user => {
       if (user) {
-        this.setState({ user });
+        this.setState({ ...this.state,user });
       } else {
-        this.setState({ user: null });
+        this.setState({ ...this.state,user: null });
       }
     });
   }
@@ -34,12 +34,13 @@ class Login extends Component {
       .auth()
       .signInWithEmailAndPassword(this.state.email, this.state.password)
       .then(() => {
-        this.setState({ msg: 'Login success' });
+        this.setState({ ...this.state,msg: 'Login success' });
+        window.alert("Login Successful!");
         const newId = fire.auth().currentUser.uid;
         console.log(newId);
       })
       .catch(error => {
-        this.setState({ fireErrors: error.message });
+        this.setState({ ...this.state,fireErrors: error.message });
       });
   };
   register = e => {
@@ -48,24 +49,25 @@ class Login extends Component {
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(() => {
-        this.setState({ msg: 'Registration success' });
+        this.setState({ ...this.state,msg: 'Registration success' });
+        window.alert("Registration Successful!");
         const newId = fire.auth().currentUser.uid;
         console.log(newId);
       })
       .catch(error => {
-        this.setState({ fireErrors: error.message });
+        this.setState({...this.state, fireErrors: error.message });
       });
   };
 
   getAction = action => {
     if (action === 'reg') {
-      this.setState({ formTitle: 'Register', loginBtn: false, fireErrors: '' });
+      this.setState({ ...this.state,formTitle: 'Register', loginBtn: false, fireErrors: '' });
     } else {
-      this.setState({ formTitle: 'Login', loginBtn: true, fireErrors: '' });
+      this.setState({...this.state, formTitle: 'Login', loginBtn: true, fireErrors: '' });
     }
   };
   handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({...this.state, [e.target.name]: e.target.value });
   };
   render() {
     let errorNotification = this.state.fireErrors ? (

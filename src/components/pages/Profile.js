@@ -15,7 +15,7 @@ class Profile extends Component {
     };
   }
   handleChange = e => {
-    this.setState({
+    this.setState({ ...this.state,
       [e.target.name]: e.target.value,
     });
   };
@@ -43,14 +43,14 @@ class Profile extends Component {
         city,
       })
       .then(() => {
-        this.setState({
+        this.setState({...this.state, 
           uname: '',
           phoneno: '',
           email: '',
           city: '',
         });
         window.alert('Profile updated');
-        this.setState({ msg: 'Profile updated' });
+        this.setState({ ...this.state, msg: 'Profile updated' });
       })
       .catch(error => {
         console.error('Error adding document: ', error);

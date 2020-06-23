@@ -5,7 +5,7 @@ class About extends Component{
     render(){
         return(
             <BrowserRouter>
-                <div className="abtbg" style={{backgroundImage:"./images/pinkwomensilhouettewomensday_386782022.png"}}>
+                <div className="bgimg">
                     <div style={{marginTop:"20px",textAlign:"center",fontSize:"20px",color:'white',padding:'10px',margin:"50px"}}>
                         <div style={{textAlign:"left"}}>
                             About Us:<br/>
