@@ -269,7 +269,7 @@ class Home extends Component {
                 location={{ lat: this.state.lat, lng: this.state.lng }}
                 width='500px'
                 height='500px'
-                zoom={12}
+                zoom={14}
                 markerName={{desc: this.state.desc}}
               />
               
