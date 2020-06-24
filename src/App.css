@@ -61,14 +61,7 @@ body {
   color: #070707;
 }
 
-.landingbg {
-  background-image: url(./images/Background-patterns-web-dark-website-blogger-beautiful-image-.jpg);
-  min-height: 110vh;
-  background-repeat: no-repeat;
-  background-size: cover;
-  margin-top: 0px;
-  padding-top: 80px;
-}
+
 .bgimg {
   background-image: url(./images/Background-patterns-web-dark-website-blogger-beautiful-image-.jpg);
   min-height: 110vh;
@@ -181,10 +174,17 @@ input[type='password'] {
   border-radius: 4px;
   margin-right: 5px;
 }
+.landingbg {
+  background-image: url(./images/Background-patterns-web-dark-website-blogger-beautiful-image-.jpg);
+  min-height: 110vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin-top: 0px;
+  padding-top: 80px;
+}
 .imgSlide
 {
-  margin-top:50px;
-  align-content: center;
+  margin-top:100px;
   border: 5px solid white;
 }
 .header a:hover {

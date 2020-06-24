@@ -18,7 +18,6 @@ class MyAccount extends Component {
       city: '',
     };
   }
-  
   getmarkersList = event => {
     const db = fire.firestore();
     let udata = [];
@@ -41,7 +40,6 @@ class MyAccount extends Component {
         window.alert('not reached!');
       });
   };
-
   getProfiledata = event => {
     const keyId = fire.auth().currentUser.uid;
     fire
@@ -60,6 +58,7 @@ class MyAccount extends Component {
             email: document.email,
           };
           Marks.push(Mark);
+          window.alert("pushed!");
           console.log(Mark.uname);
           console.log(Mark.city);
         });
@@ -70,12 +69,11 @@ class MyAccount extends Component {
   };
 
   shiftToLogin=(event)=>
-    {
-      this.setState({...this.state, msg:false});
-    };
+  {
+    this.setState({...this.state, msg:false});
+  };
   render() 
   {
-    
     if(this.state.msg===false)
     {
       return <Redirect to='/mapsPage'/>;

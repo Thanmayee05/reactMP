@@ -24,6 +24,9 @@ class LandingPage extends Component {
                 display:'flex',
               }}
             >  
+            <div style={{fontSize:'40px'}}>
+
+            </div>
             <div className='imgSlide'>
               <SimpleImageSlider
                 width={1000} 

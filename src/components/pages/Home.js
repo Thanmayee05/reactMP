@@ -3,7 +3,7 @@ import fire, { storage } from '../../config/Fire';
 import { GoogleComponent } from 'react-google-location';
 import Map from '../maps/Map';
 import { Redirect } from 'react-router-dom';
-import './landing.css';
+
 
 const API_KEY = 'AIzaSyDprftdVU4M9RKlH31yZqrPNO5Rj-Y6AKg';
 class Home extends Component {
