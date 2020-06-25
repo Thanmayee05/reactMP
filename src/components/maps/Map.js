@@ -8,6 +8,7 @@ class SimpleMap extends Component {
     zoom: 14,
   };
   render() {
+    // console.log(this.props.markerslist);
     return (
       <div style={{ height: '550px', width: '1000px', marginTop: '20px' }}>
         <GoogleMapReact
@@ -16,12 +17,25 @@ class SimpleMap extends Component {
           center={this.props.location}
           defaultZoom={this.props.zoom}
         >
+          {this.props.markerslist?.map((marker, index) => (
+            <Marker
+              key={index}
+              lat={marker.lat}
+              lng={marker.lng}
+              color='rgb(207, 40, 40)'
+              width='12px'
+              height='12px'
+            />
+          ))}
           <Marker
             lat={this.props.location.lat}
             lng={this.props.location.lng}
             name={this.props.desc}
-            color='rgb(207, 40, 40)'
+            color='rgb(9, 182, 250)'
+            width='9px'
+            height='9px'
           />
+          
         </GoogleMapReact>
       </div>
     );

@@ -3,13 +3,15 @@ import fire, { storage } from '../../config/Fire';
 import { GoogleComponent } from 'react-google-location';
 import Map from '../maps/Map';
 import { Redirect } from 'react-router-dom';
-
+import './landing.css';
 
 const API_KEY = 'AIzaSyDprftdVU4M9RKlH31yZqrPNO5Rj-Y6AKg';
+
 class Home extends Component {
   constructor(props) {
     super(props);
     this.ref = fire.firestore().collection('coordinates');
+
     this.state = {
       image: null,
       imgSrc: '',
@@ -20,16 +22,23 @@ class Home extends Component {
       message: '',
       loginStatus: true,
       status: true,
-      isLoading:false,
-      setLoading:false,
+      isLoading: false,
+      setLoading: false,
       msg: true,
-      desc:'',
+      desc: '',
+      udata:[],
     };
+  }
+
+  componentDidUpdate() {
+    if (this.state.uid) {
+      console.log(this.state.uid);
+    }
   }
 
   logout = () => {
     console.log('Sending a logout request to the API...');
-    this.setState({...this.state, loginStatus: false });
+    this.setState({ ...this.state, loginStatus: false });
     fire.auth().signOut();
     window.alert('Logging out!');
   };
@@ -50,15 +59,50 @@ class Home extends Component {
       });
   }
 
+  setFireBaseAuth = () => {
+    fire.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.getmarkersList(user.uid);
+      } else {
+      }
+    });
+  };
+
+  //getmarkersList = uid => {
+    getmarkersList=()=>{
+    const db = fire.firestore();
+    //let udata = [];
+    const {udata}=this.state;
+    db.collection('AllMarkers')
+      //.doc(uid)
+      //.collection('Markers')
+      .get()
+      .then(snapshot => {
+        snapshot.docs.forEach(doc => {
+          const { lat, lng } = doc.data();
+          udata.push({ lat, lng });
+        });
+        // const { lng, lat } = this.state;
+        // const newElement = { lat: lat, lng: lng };
+        // this.setState({
+        //   markerslist: [...this.state.markerslist, newElement],
+        // });
+        // console.log(udata);
+        this.setState({ markerslist: udata });
+      })
+      .catch(error => {
+        window.alert('not reached!');
+        console.log(error);
+      });
+  };
+
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(position => {
-      this.setState({...this.state,
-        lng: position.coords.longitude,
-      });
-      this.setState({...this.state,
-        lat: position.coords.latitude,
-      });
+      this.setState({ ...this.state, lng: position.coords.longitude });
+      this.setState({ ...this.state, lat: position.coords.latitude });
+      this.setFireBaseAuth();
     });
+    // this.getmarkersList();
   }
 
   /*showMarkerinLoc() {
@@ -69,15 +113,14 @@ class Home extends Component {
        })
      );
    }*/
-   showMarkerinLoc=()=>{
-      navigator.geolocation.getCurrentPosition((position)=>
-       this.setState({
-          lng:position.coords.longitude,
-          lat:position.coords.latitude
-        }),
-      );
-      
-    }
+  showMarkerinLoc = () => {
+    navigator.geolocation.getCurrentPosition(position =>
+      this.setState({
+        lng: position.coords.longitude,
+        lat: position.coords.latitude,
+      })
+    );
+  };
   onchange = e => {
     console.log(e.target.name);
     this.setState({ ...this.state, [e.target.name]: e.target.value });
@@ -93,7 +136,7 @@ class Home extends Component {
       lng: e.coordinates.lng,
     });
   };
- 
+
   handleMarker = event => {
     //Code for Uploading Image
     const { image } = this.state;
@@ -101,7 +144,7 @@ class Home extends Component {
     event.preventDefault();
     const db = fire.firestore();
     const { lng, lat } = this.state;
-    const newElement = { lat: lat, lng: lng }; 
+    const newElement = { lat: lat, lng: lng };
     if (image) {
       const uploadTask = storage
         .ref(`images/${newId}/${image.name}`)
@@ -148,10 +191,7 @@ class Home extends Component {
         lat,
       })
       .then(docRef => {
-        this.setState({...this.state, 
-          lng: '',
-          lat: '',
-        });
+        this.setState({ ...this.state, lng: '', lat: '' });
         //this.props.history.push("/")
         window.alert('Marker Added');
       })
@@ -161,19 +201,14 @@ class Home extends Component {
       });
 
     //the second insertion into coordinates collection
-    db.collection('coordinates')
+    db.collection('AllMarkers')
       .doc(newId)
-      .collection('Markers')
-      .doc()
       .set({
         lng,
         lat,
       })
       .then(docRef => {
-        this.setState({...this.state,
-          lng: '',
-          lat: '',
-        });
+        this.setState({ ...this.state, lng: '', lat: '' });
         //this.props.history.push("/")
         window.alert('Added marker in col2');
       })
@@ -199,21 +234,19 @@ class Home extends Component {
   handleChange = event => {
     if (event.target.files[0]) {
       const image = event.target.files[0];
-      this.setState(() => ({ ...this.state,image }));
+      this.setState(() => ({ ...this.state, image }));
     }
     var file = this.refs.file.files[0];
     var reader = new FileReader();
     var url = reader.readAsDataURL(file);
     reader.onloadend = function (e) {
-      this.setState({ ...this.state, 
-        imgSrc: [reader.result],
-      });
+      this.setState({ ...this.state, imgSrc: [reader.result] });
     }.bind(this);
     console.log(url);
   };
 
-
   render() {
+    // console.log(this.state.markerslist);
     if (this.state.loginStatus === false) {
       return <Redirect to='/login' />;
     }
@@ -226,7 +259,8 @@ class Home extends Component {
           <div className='mapsClass'>
             <div style={{ textAlign: 'center', fontSize: '40px' }}>
               Welcome User!
-              <button className='buttoncss'
+              <button
+                className='buttoncss'
                 onClick={this.logout}
                 style={{
                   float: 'right',
@@ -236,22 +270,30 @@ class Home extends Component {
               >
                 Logout
               </button>
-              <button className='buttoncss'
-              style={{
-                float: 'right',
-                marginTop: '30px',
-              }}
-              onClick={this.getProfiledata}>Profile</button>
               <button
-                className="buttoncss"
+                className='buttoncss'
+                style={{
+                  float: 'right',
+                  marginTop: '30px',
+                }}
+                onClick={this.getProfiledata}
+              >
+                Profile
+              </button>
+              <button
+                className='buttoncss'
                 onClick={this.showMarkerinLoc}
-                style={{float:'right', marginRight: '200px', marginTop: '80px' }}
+                style={{
+                  float: 'right',
+                  marginRight: '200px',
+                  marginTop: '80px',
+                }}
               >
                 Current Location
               </button>
             </div>
-            <br/>
-            <div className="searchBoxStyle">
+            <br />
+            <div className='searchBoxStyle'>
               <GoogleComponent
                 apiKey={API_KEY}
                 language={'en'}
@@ -263,18 +305,18 @@ class Home extends Component {
               />
             </div>
             <div className='imgUpload' style={{ marginLeft: '80px' }}>
-
-                <Map
+              <Map
                 google={this.props.google}
                 location={{ lat: this.state.lat, lng: this.state.lng }}
                 width='500px'
                 height='500px'
                 zoom={14}
-                markerName={{desc: this.state.desc}}
+                markerName={{ desc: this.state.desc }}
+                markerslist={this.state.markerslist}
               />
-              
+
               <br />
-              <br/>
+              <br />
               <div
                 style={{ float: 'right', position: 'relative', margin: '20px' }}
               >
@@ -284,20 +326,20 @@ class Home extends Component {
                   onChange={this.handleChange}
                   name='user[image]'
                   ref='file'
-                  multiple='true'
+                  // multiple='true'
                 />
                 <br />
                 <br />
-                <div className="imgBorder">
-                <img
-                  src={
-                    this.state.imgSrc ||
-                    'https://via.placeholder.com/400x200?text=Your+Image+will+be+displayed+here'
-                  }
-                  alt='Uploaded Images'
-                  width='400'
-                  height='200'
-                />
+                <div className='imgBorder'>
+                  <img
+                    src={
+                      this.state.imgSrc ||
+                      'https://via.placeholder.com/400x200?text=Your+Image+will+be+displayed+here'
+                    }
+                    alt='Uploaded Images'
+                    width='400'
+                    height='200'
+                  />
                 </div>
                 <br />
                 lat:
@@ -317,12 +359,14 @@ class Home extends Component {
                   onChange={this.onchange}
                 ></input>
                 <br />
-                <button className='buttoncss' onClick={this.handleMarker}>Add Marker</button>
+                <button className='buttoncss' onClick={this.handleMarker}>
+                  Add Marker
+                </button>
                 <br />
-              </div>
               </div>
             </div>
           </div>
+        </div>
       </div>
     );
   }

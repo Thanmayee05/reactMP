@@ -18,39 +18,47 @@ class MyAccount extends Component {
       city: '',
     };
   }
+
   getmarkersList = event => {
     const db = fire.firestore();
     let udata = [];
     const keyId = fire.auth().currentUser.uid;
-    //window.alert(keyId);
-    db.collection('coordinates').doc(keyId).collection('Markers')
-      .get().then(snapshot => {
+    window.alert(keyId);
+    db.collection('coordinates')
+      .doc(keyId)
+      .collection('Markers')
+      .get()
+      .then(snapshot => {
         window.alert('reached2');
-        snapshot.forEach(doc => {
-          udata.push({ lat: doc.lat, lng: doc.lng });
+        snapshot.docs.forEach(doc => {
+          const { lat, lng } = doc.data();
+          udata.push({ lat, lng });
         });
         const { lng, lat } = this.state;
         const newElement = { lat: lat, lng: lng };
         this.setState({
           markerslist: [...this.state.markerslist, newElement],
         });
+        console.log(udata);
         //this.setState({ markerslist: udata });
       })
       .catch(error => {
         window.alert('not reached!');
       });
+    event.preventDefault();
   };
+
   getProfiledata = event => {
     const keyId = fire.auth().currentUser.uid;
     fire
       .firestore()
-      .collection("UserDetails")
+      .collection('UserDetails')
       .doc(keyId)
       .get()
-      .then((response) => {
-        window.alert("Reached then");
+      .then(response => {
+        window.alert('Reached then');
         const Marks = [];
-        response.forEach((document) => {
+        response.forEach(document => {
           const Mark = {
             uname: document.uname,
             city: document.city,
@@ -58,7 +66,6 @@ class MyAccount extends Component {
             email: document.email,
           };
           Marks.push(Mark);
-          window.alert("pushed!");
           console.log(Mark.uname);
           console.log(Mark.city);
         });
@@ -68,15 +75,12 @@ class MyAccount extends Component {
       });
   };
 
-  shiftToLogin=(event)=>
-  {
-    this.setState({...this.state, msg:false});
+  shiftToLogin = event => {
+    this.setState({ ...this.state, msg: false });
   };
-  render() 
-  {
-    if(this.state.msg===false)
-    {
-      return <Redirect to='/mapsPage'/>;
+  render() {
+    if (this.state.msg === false) {
+      return <Redirect to='/mapsPage' />;
     }
     const { markerslist, userDe } = this.state;
     return (
@@ -120,5 +124,3 @@ class MyAccount extends Component {
   }
 }
 export default MyAccount;
-
-
