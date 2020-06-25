@@ -23,8 +23,8 @@ class SimpleMap extends Component {
               lat={marker.lat}
               lng={marker.lng}
               color='rgb(207, 40, 40)'
-              width='12px'
-              height='12px'
+              width='10px'
+              height='10px'
             />
           ))}
           <Marker
