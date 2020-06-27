@@ -17,37 +17,15 @@ class App extends Component {
     return (
       <Router>
         <div className='header'>
-          <a href='#home' className='logo'>
-            {' '}
-          </a>
-          <a
-            href='#default'
-            className='header-left'
-            style={{ fontSize: '32px' }}
-          >
-            She
-            <span
-              style={{
-                color: 'rgb(8, 49, 231)',
-                fontFamily: 'Titillium Web',
-                fontWeight: 'bold',
-                fontSize: '36px',
-              }}
-            >
-              Help
-            </span>
+          <a href='#home' className='logo'>{' '}</a>
+          <a href='#default' className='header-left' style={{ fontSize: '32px' }}>She
+            <span style={{color: 'rgb(8, 49, 231)', fontFamily: 'Titillium Web', fontWeight: 'bold', fontSize: '36px'}}>Help</span>
           </a>
           <div className='header-right'>
-            <NavLink activeClassName='selected' to='/' exact>
-              Home
-            </NavLink>
-            <NavLink to='/about' exact>
-              About
-            </NavLink>
-            <NavLink to='/login' exact>
-              Login
-            </NavLink>
-          </div>
+              <NavLink activeClassName='selected' to='/' exact>Home</NavLink>
+              <NavLink to='/about' exact>About</NavLink>
+              <NavLink to='/login' exact>Login</NavLink>
+            </div>
           <Switch>
             <Route exact path='/' component={LandingPage} />
             <Route exact path='/about' component={About} />

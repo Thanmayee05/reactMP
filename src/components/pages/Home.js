@@ -26,6 +26,7 @@ class Home extends Component {
       setLoading: false,
       msg: true,
       desc: '',
+      udata:[],
     };
   }
 
@@ -67,12 +68,14 @@ class Home extends Component {
     });
   };
 
-  getmarkersList = uid => {
+  //getmarkersList = uid => {
+    getmarkersList=()=>{
     const db = fire.firestore();
-    let udata = [];
-    db.collection('coordinates')
-      .doc(uid)
-      .collection('Markers')
+    //let udata = [];
+    const {udata}=this.state;
+    db.collection('AllMarkers')
+      //.doc(uid)
+      //.collection('Markers')
       .get()
       .then(snapshot => {
         snapshot.docs.forEach(doc => {
@@ -89,6 +92,7 @@ class Home extends Component {
       })
       .catch(error => {
         window.alert('not reached!');
+        console.log(error);
       });
   };
 
@@ -164,7 +168,7 @@ class Home extends Component {
             .getDownloadURL()
             .then(url => {
               this.setState({ ...this.state, imgSrc: url });
-              window.alert('Uploaded Successfully');
+              //window.alert('Uploaded Successfully');
               window.location.reload(false);
             });
         }
@@ -197,9 +201,8 @@ class Home extends Component {
       });
 
     //the second insertion into coordinates collection
-    db.collection('coordinates')
-      .doc(newId)
-      .collection('Markers')
+    db.collection('AllMarkers')
+      //.doc(newId)
       .doc()
       .set({
         lng,
@@ -208,7 +211,7 @@ class Home extends Component {
       .then(docRef => {
         this.setState({ ...this.state, lng: '', lat: '' });
         //this.props.history.push("/")
-        window.alert('Added marker in col2');
+        //window.alert('Added marker in col2');
       })
       .catch(error => {
         console.error('Error adding document: ', error);
