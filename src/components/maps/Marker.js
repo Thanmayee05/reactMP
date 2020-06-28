@@ -10,4 +10,13 @@ const Marker = props => {
   );
 };
 
+/*const MarkerC = props => {
+  const { color, name, width,height } = props;
+  return (
+    <div className='markerBlock' style={{}}
+      style={{ backgroundColor: color, cursor: 'pointer', color:"red", width:width, height:height}}
+      title={name}
+    />
+  );
+}*/
 export default Marker;

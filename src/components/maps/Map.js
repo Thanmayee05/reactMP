@@ -22,20 +22,20 @@ class SimpleMap extends Component {
               key={index}
               lat={marker.lat}
               lng={marker.lng}
-              color='rgb(207, 40, 40)'
-              width='10px'
-              height='10px'
+              color="rgb(207, 40, 40)"
+              width="10px"
+              height="10px"
+              name="Danger Zone"
             />
           ))}
           <Marker
             lat={this.props.location.lat}
             lng={this.props.location.lng}
             name={this.props.desc}
-            color='rgb(9, 182, 250)'
-            width='9px'
-            height='9px'
+            color="rgb(9, 182, 250)"
+            width="9px"
+            height="9px"
           />
-          
         </GoogleMapReact>
       </div>
     );

@@ -1,6 +1,27 @@
 import React, { Component } from 'react';
 import fire from '../../config/Fire';
-import { Redirect } from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
+import Typography from '@material-ui/core/Typography';
+import Link from '@material-ui/core/Link';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
+/*import LandingPage from './LandingPage';
+import About from './About';
+import Profile from './Profile';
+import Home from './Home';
+import { BrowserRouter as Router, NavLink, Switch, Route, Redirect } from 'react-router-dom';*/
+
+
+function Copyright(){
+  return (
+    <Typography variant="body2" float="center">
+      <Link>
+      <span style={{fontFamily:'cursive',fontSize:"18px"}}>{'Copyright©She'}<span style={{color:'blue'}}>{'Help'}</span>
+      {new Date().getFullYear()}</span>
+      </Link>
+    </Typography>
+  );
+}
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -107,7 +128,7 @@ class Login extends Component {
     return (
       <div className='bgimg'>
         <div className='form_block'>
-          <div id='title'>{this.state.formTitle}</div>
+          <div id='title'><LockOpenIcon style={{fontSize:'22px'}}/>{this.state.formTitle}</div>
           <div className='body'>
             {errorNotification}
             <form>
@@ -134,6 +155,9 @@ class Login extends Component {
             {login_register}
           </div>
         </div>
+          <div style={{color:'white',bottom:'0px', position:'fixed',left:'625px'}}>
+             <Copyright/>
+          </div>
       </div>
     );
   }

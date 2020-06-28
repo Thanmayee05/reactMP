@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import fire from '../../config/Fire';
+/*import { BrowserRouter as Router,Switch,Route,Redirect }from 'react-router-dom';
+import Home from './Home';*/
 import { Redirect } from 'react-router-dom';
-
 class Profile extends Component {
   constructor(props) {
     super(props);
@@ -14,108 +15,149 @@ class Profile extends Component {
       msg: '',
     };
   }
-  handleChange = e => {
-    this.setState({ ...this.state,
-      [e.target.name]: e.target.value,
-    });
+  handleChange = (e) => {
+    this.setState({ ...this.state, [e.target.name]: e.target.value });
   };
-  /*getUserData = () => {
-    let ref = fire.database().ref('/');
-    ref.on('value', snapshot => {
-      const state = snapshot.val();
-      this.setState(state);
-    });
-  };*/
-  /*componentDidMount() {
-    this.getUserData();
-  }*/
-  handleSub = e => {
+
+  handleSub = (e) => {
     e.preventDefault();
     const { uname, phoneno, email, city } = this.state;
     const keyId = fire.auth().currentUser.uid;
     const db = fire.firestore();
-    db.collection('UserDetails')
-      .doc(keyId)
-      .set({
-        uname,
-        phoneno,
-        email,
-        city,
-      })
-      .then(() => {
-        this.setState({...this.state, 
-          uname: '',
-          phoneno: '',
-          email: '',
-          city: '',
+    if (uname === '' || phoneno === '' || email === '' || city === '') {
+      window.alert('Fill out all the fields');
+      return;
+    } else {
+      db.collection('UserDetails')
+        .doc(keyId)
+        .set({
+          uname,
+          phoneno,
+          email,
+          city,
+        })
+        .then(() => {
+          this.setState({
+            ...this.state,
+            uname: '',
+            phoneno: '',
+            email: '',
+            city: '',
+          });
+          window.alert('Profile updated');
+          this.setState({ ...this.state, msg: 'Profile updated' });
+        })
+        .catch((error) => {
+          console.error('Error adding document: ', error);
+          window.alert('Error adding');
         });
-        window.alert('Profile updated');
-        this.setState({ ...this.state, msg: 'Profile updated' });
-      })
-      .catch(error => {
-        console.error('Error adding document: ', error);
-        window.alert('Error adding');
-      });
+    }
   };
 
   render() {
     if (this.state.msg === 'Profile updated') {
-      return <Redirect to='/mapsPage' />;
+      return <Redirect to="/mapsPage" />;
     }
     return (
-      <div className='bgimg'>
-        <div className='form_block'>
-          <div id='title'>{this.state.formTitle}</div>
-          <div className='body' style={{ position: 'relative' }}>
+      <div className="bgimg">
+        <div className="form_block">
+          <div id="title">{this.state.formTitle}</div>
+          <div className="body" style={{ position: 'relative' }}>
             <form>
-              User Name
+              User Name{' '}
+              <span
+                style={{
+                  color: 'rgb(248, 58, 58)',
+                  fontSize: '17px',
+                  fontWeight: 'lighter',
+                }}
+              >
+                *
+              </span>
               <br />
               <input
-                type='text'
+                type="text"
                 value={this.state.uname}
-                placeholder='UserName'
+                placeholder="UserName"
                 onChange={this.handleChange}
                 required
-                name='uname'
-                autoComplete='off'
+                name="uname"
+                autoComplete="off"
               />
-              Phone Number
+              Phone Number{' '}
+              <span
+                style={{
+                  color: 'rgb(248, 58, 58)',
+                  fontSize: '17px',
+                  fontWeight: 'lighter',
+                }}
+              >
+                *
+              </span>
               <br />
               <input
-                type='text'
+                type="text"
                 required
-                inputmode='numeric'
+                inputmode="numeric"
                 value={this.state.phoneno}
-                placeholder='PhoneNumber'
+                placeholder="PhoneNumber"
                 onChange={this.handleChange}
-                name='phoneno'
-                autoComplete='off'
+                name="phoneno"
+                autoComplete="off"
               />
-              Email ID
+              Email ID{' '}
+              <span
+                style={{
+                  color: 'rgb(248, 58, 58)',
+                  fontSize: '17px',
+                  fontWeight: 'lighter',
+                }}
+              >
+                *
+              </span>
               <br />
               <input
-                type='text'
+                type="text"
                 value={this.state.email}
-                placeholder='EmailID'
+                placeholder="EmailID"
                 required
                 onChange={this.handleChange}
-                name='email'
-                autoComplete='off'
+                name="email"
+                autoComplete="off"
               />
-              City
+              City{' '}
+              <span
+                style={{
+                  color: 'rgb(248, 58, 58)',
+                  fontSize: '17px',
+                  fontWeight: 'lighter',
+                }}
+              >
+                *
+              </span>
               <br />
               <input
-                type='text'
+                type="text"
                 value={this.state.city}
                 onChange={this.handleChange}
-                placeholder='CityName'
+                placeholder="CityName"
                 required
-                name='city'
-                autoComplete='off'
+                name="city"
+                autoComplete="off"
               />
               <br />
               <br />
-              <button className='registerBtn' style={{position:"relative",marginBottom:"15px",marginTop:'1px',marginRight:'125px',float:'center'}} onClick={this.handleSub}>
+              <button
+                className="registerBtn"
+                style={{
+                  position: 'relative',
+                  marginBottom: '15px',
+                  marginTop: '1px',
+                  marginRight: '125px',
+                  float: 'center',
+                }}
+                onClick={this.handleSub}
+              >
                 Submit
               </button>
             </form>

@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
+
+/*import {
+    BrowserRouter as Router,
+    NavLink,
+    Switch,
+    Route,
+  } from 'react-router-dom';
+import LandingPage from './LandingPage';
+import Login from './Login';*/
 
 class About extends Component{
     render(){
         return(
-            <BrowserRouter>
+            <Router>
                 <div className="bgimg">
                     <div style={{marginTop:"20px",textAlign:"center",fontSize:"20px",color:'white',padding:'10px',margin:"50px"}}>
                         <div style={{textAlign:"left"}}>
@@ -39,8 +48,8 @@ class About extends Component{
                             </p>
                         </div>
                     </div>
-                </div>                
-            </BrowserRouter>
+                    </div>            
+            </Router>
             
 
         )

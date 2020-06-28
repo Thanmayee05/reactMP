@@ -2,8 +2,20 @@ import React, { Component } from 'react';
 import fire, { storage } from '../../config/Fire';
 import { GoogleComponent } from 'react-google-location';
 import Map from '../maps/Map';
-import { Redirect } from 'react-router-dom';
 import './landing.css';
+import { Redirect } from 'react-router-dom';
+/*import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from 'react-router-dom';
+import Login from './Login';
+import MyAccount from './Profile';*/
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
+import AddLocationIcon from '@material-ui/icons/AddLocation';
 
 const API_KEY = 'AIzaSyDprftdVU4M9RKlH31yZqrPNO5Rj-Y6AKg';
 
@@ -11,7 +23,6 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.ref = fire.firestore().collection('coordinates');
-
     this.state = {
       image: null,
       imgSrc: '',
@@ -26,7 +37,7 @@ class Home extends Component {
       setLoading: false,
       msg: true,
       desc: '',
-      udata:[],
+      udata: [],
     };
   }
 
@@ -53,14 +64,14 @@ class Home extends Component {
         window.alert('deleting marker');
         this.props.history.push('/');
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error removing document: ', error);
         window.alert('Error deleting');
       });
   }
 
   setFireBaseAuth = () => {
-    fire.auth().onAuthStateChanged(user => {
+    fire.auth().onAuthStateChanged((user) => {
       if (user) {
         this.getmarkersList(user.uid);
       } else {
@@ -68,36 +79,26 @@ class Home extends Component {
     });
   };
 
-  //getmarkersList = uid => {
-    getmarkersList=()=>{
+  getmarkersList = () => {
     const db = fire.firestore();
-    //let udata = [];
-    const {udata}=this.state;
+    const { udata } = this.state;
     db.collection('AllMarkers')
-      //.doc(uid)
-      //.collection('Markers')
       .get()
-      .then(snapshot => {
-        snapshot.docs.forEach(doc => {
+      .then((snapshot) => {
+        snapshot.docs.forEach((doc) => {
           const { lat, lng } = doc.data();
           udata.push({ lat, lng });
         });
-        // const { lng, lat } = this.state;
-        // const newElement = { lat: lat, lng: lng };
-        // this.setState({
-        //   markerslist: [...this.state.markerslist, newElement],
-        // });
-        // console.log(udata);
         this.setState({ markerslist: udata });
       })
-      .catch(error => {
+      .catch((error) => {
         window.alert('not reached!');
         console.log(error);
       });
   };
 
   componentDidMount() {
-    navigator.geolocation.getCurrentPosition(position => {
+    navigator.geolocation.getCurrentPosition((position) => {
       this.setState({ ...this.state, lng: position.coords.longitude });
       this.setState({ ...this.state, lat: position.coords.latitude });
       this.setFireBaseAuth();
@@ -105,29 +106,21 @@ class Home extends Component {
     // this.getmarkersList();
   }
 
-  /*showMarkerinLoc() {
-   navigator.geolocation.getCurrentPosition(position =>
-       this.setState({ ...this.state,
-         lng: position.coords.longitude})
-          lat: position.coords.latitude,
-       })
-     );
-   }*/
   showMarkerinLoc = () => {
-    navigator.geolocation.getCurrentPosition(position =>
+    navigator.geolocation.getCurrentPosition((position) =>
       this.setState({
         lng: position.coords.longitude,
         lat: position.coords.latitude,
       })
     );
   };
-  onchange = e => {
+  onchange = (e) => {
     console.log(e.target.name);
     this.setState({ ...this.state, [e.target.name]: e.target.value });
     console.log(this.state);
   };
 
-  handleSearchChange = e => {
+  handleSearchChange = (e) => {
     console.log(e);
     this.setState({
       ...this.state,
@@ -137,7 +130,16 @@ class Home extends Component {
     });
   };
 
-  handleMarker = event => {
+  handleCheck(val) {
+    var v = this.state.markerslist.some((item) => val.lat === item.lat);
+    var u = this.state.markerslist.some((item) => val.lng === item.lng);
+    if (v === true && u === true) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  handleMarker = (event) => {
     //Code for Uploading Image
     const { image } = this.state;
     const newId = fire.auth().currentUser.uid;
@@ -145,94 +147,87 @@ class Home extends Component {
     const db = fire.firestore();
     const { lng, lat } = this.state;
     const newElement = { lat: lat, lng: lng };
-    if (image) {
-      const uploadTask = storage
-        .ref(`images/${newId}/${image.name}`)
-        .put(image);
-      uploadTask.on(
-        'state_changed',
-        snapshot => {
-          const progress = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          );
-          this.setState({ ...this.state, progress });
-        },
-        error => {
-          window.alert('Error in submission.');
-        },
-        () => {
-          // complete function ...
-          storage
-            .ref('images/' + newId)
-            .child(image.name)
-            .getDownloadURL()
-            .then(url => {
-              this.setState({ ...this.state, imgSrc: url });
-              //window.alert('Uploaded Successfully');
-              window.location.reload(false);
-            });
-        }
-      );
-    } else {
-      window.alert('Please select your Image!');
+    if (this.handleCheck(newElement)) {
+      window.alert('Marker already existing!');
       return;
+    } else {
+      if (image) {
+        const uploadTask = storage
+          .ref(`images/${newId}/${image.name}`)
+          .put(image);
+        uploadTask.on(
+          'state_changed',
+          (snapshot) => {
+            const progress = Math.round(
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            );
+            this.setState({ ...this.state, progress });
+          },
+          (error) => {
+            window.alert('Error in submission.');
+          },
+          () => {
+            // complete function ...
+            storage
+              .ref('images/' + newId)
+              .child(image.name)
+              .getDownloadURL()
+              .then((url) => {
+                this.setState({ ...this.state, imgSrc: url });
+                //window.alert('Uploaded Successfully');
+                window.location.reload(false);
+              });
+          }
+        );
+      } else {
+        window.alert('Please Upload Image');
+        return;
+      }
+
+      //Adding Marker
+      this.setState({
+        markerslist: [...this.state.markerslist, newElement],
+      });
+      db.collection('UserDetails')
+        .doc(newId)
+        .collection('Markers')
+        .doc()
+        .set({
+          lng,
+          lat,
+        })
+        .then((docRef) => {
+          this.setState({ ...this.state, lng: '', lat: '' });
+        })
+        .catch((error) => {
+          console.error('Error adding document: ', error);
+          window.alert('Error adding');
+        });
+
+      //the second insertion into coordinates collection
+      db.collection('AllMarkers')
+        //.doc(newId)
+        .doc()
+        .set({
+          lng,
+          lat,
+        })
+        .then((docRef) => {
+          this.setState({ ...this.state, lng: '', lat: '' });
+          //this.props.history.push("/")
+          window.alert('Marker Added');
+        })
+        .catch((error) => {
+          console.error('Error adding document: ', error);
+          window.alert('Error adding');
+        });
     }
-
-    //Adding Marker
-    this.setState({
-      markerslist: [...this.state.markerslist, newElement],
-    });
-    db.collection('UserDetails')
-      .doc(newId)
-      .collection('Markers')
-      .doc()
-      .set({
-        lng,
-        lat,
-      })
-      .then(docRef => {
-        this.setState({ ...this.state, lng: '', lat: '' });
-        //this.props.history.push("/")
-        window.alert('Marker Added');
-      })
-      .catch(error => {
-        console.error('Error adding document: ', error);
-        window.alert('Error adding');
-      });
-
-    //the second insertion into coordinates collection
-    db.collection('AllMarkers')
-      //.doc(newId)
-      .doc()
-      .set({
-        lng,
-        lat,
-      })
-      .then(docRef => {
-        this.setState({ ...this.state, lng: '', lat: '' });
-        //this.props.history.push("/")
-        //window.alert('Added marker in col2');
-      })
-      .catch(error => {
-        console.error('Error adding document: ', error);
-        window.alert('Error adding');
-      });
   };
 
-  getProfiledata = event => {
-    /*const db=fire.firestore();
-    const keyId = fire.auth().currentUser.uid;
-    db.collection('UserDetails').doc(keyId).collection('Markers').get()
-    .then(response => {
-      window.alert("reached");
-    })
-    .catch(error => {
-      //setError(error);
-      window.alert("not reached!");
-    });*/
+  getProfiledata = (event) => {
     this.setState({ ...this.state, msg: false });
   };
-  handleChange = event => {
+  handleChange = (event) => {
     if (event.target.files[0]) {
       const image = event.target.files[0];
       this.setState(() => ({ ...this.state, image }));
@@ -249,52 +244,52 @@ class Home extends Component {
   render() {
     // console.log(this.state.markerslist);
     if (this.state.loginStatus === false) {
-      return <Redirect to='/login' />;
+      return <Redirect to="/login" />;
     }
     if (this.state.msg === false) {
-      return <Redirect to='/myProfile' />;
+      return <Redirect to="/myProfile" />;
     }
     return (
       <div>
         <div>
-          <div className='mapsClass'>
+          <div className="mapsClass">
             <div style={{ textAlign: 'center', fontSize: '40px' }}>
               Welcome User!
               <button
-                className='buttoncss'
+                className="buttoncss"
                 onClick={this.logout}
                 style={{
                   float: 'right',
-                  marginRight: '50px',
+                  marginRight: '40px',
                   marginTop: '30px',
                 }}
               >
-                Logout
+                <ExitToAppIcon style={{ fontSize: '12px' }} /> Logout
               </button>
               <button
-                className='buttoncss'
+                className="buttoncss"
                 style={{
                   float: 'right',
                   marginTop: '30px',
                 }}
                 onClick={this.getProfiledata}
               >
-                Profile
+                <PersonOutlineIcon style={{ fontSize: '12px' }} /> Profile
               </button>
               <button
-                className='buttoncss'
+                className="buttoncss"
                 onClick={this.showMarkerinLoc}
                 style={{
                   float: 'right',
-                  marginRight: '200px',
+                  marginRight: '190px',
                   marginTop: '80px',
                 }}
               >
-                Current Location
+                <LocationOnIcon style={{ fontSize: '12px' }} /> Current Location
               </button>
             </div>
             <br />
-            <div className='searchBoxStyle'>
+            <div className="searchBoxStyle">
               <GoogleComponent
                 apiKey={API_KEY}
                 language={'en'}
@@ -305,12 +300,12 @@ class Home extends Component {
                 onChange={this.handleSearchChange}
               />
             </div>
-            <div className='imgUpload' style={{ marginLeft: '80px' }}>
+            <div className="imgUpload" style={{ marginLeft: '80px' }}>
               <Map
                 google={this.props.google}
                 location={{ lat: this.state.lat, lng: this.state.lng }}
-                width='500px'
-                height='500px'
+                width="500px"
+                height="500px"
                 zoom={14}
                 markerName={{ desc: this.state.desc }}
                 markerslist={this.state.markerslist}
@@ -322,46 +317,49 @@ class Home extends Component {
                 style={{ float: 'right', position: 'relative', margin: '20px' }}
               >
                 <input
-                  className='inputType'
-                  type='file'
+                  className="inputType"
+                  type="file"
                   onChange={this.handleChange}
-                  name='user[image]'
-                  ref='file'
+                  name="user[image]"
+                  ref="file"
                   // multiple='true'
                 />
                 <br />
                 <br />
-                <div className='imgBorder'>
+                <div className="imgBorder">
                   <img
                     src={
                       this.state.imgSrc ||
                       'https://via.placeholder.com/400x200?text=Your+Image+will+be+displayed+here'
                     }
-                    alt='Uploaded Images'
-                    width='400'
-                    height='200'
+                    alt="Uploaded Images"
+                    width="400"
+                    height="200"
                   />
                 </div>
                 <br />
                 lat:
                 <input
-                  type='text'
+                  type="text"
                   value={this.state.lat}
-                  placeholder='latitude'
-                  name='lat'
+                  placeholder="latitude"
+                  name="lat"
                   onChange={this.onchange}
                 ></input>
                 long:
                 <input
-                  type='text'
+                  type="text"
                   value={this.state.lng}
-                  placeholder='longitude'
-                  name='lng'
+                  placeholder="longitude"
+                  name="lng"
                   onChange={this.onchange}
                 ></input>
                 <br />
-                <button className='buttoncss' onClick={this.handleMarker}>
-                  Add Marker
+                <button className="buttoncss" onClick={this.handleMarker}>
+                  <div>
+                    <AddLocationIcon style={{ fontSize: '15px' }} />
+                    Add Marker
+                  </div>
                 </button>
                 <br />
               </div>
