@@ -8,7 +8,7 @@ class MyAccount extends Component {
     this.ref = fire.firestore().collection('coordinates');
     this.state = {
       //markerslist: [],
-      userDe: [],
+      DetailUser: {},
       lng: '',
       lat: '',
       msg: true,
@@ -63,7 +63,7 @@ class MyAccount extends Component {
 
   getProfiledata = (uid) => {
     const keyId = fire.auth().currentUser.uid;
-    const userD = [];
+    //const userD = [];
     fire
       .firestore()
       .collection('UserDetails')
@@ -72,8 +72,15 @@ class MyAccount extends Component {
       .then(function (doc) {
         if (doc.exists) {
           console.log('Doc data is ', doc.data().uname);
+          const { uname, city, phoneno, email } = doc.data();
+          //userD.push({ uname, city, phoneno, email });
+
+          this.setState({
+            ...this.state,
+            DetailUser: { uname, email, phoneno, city },
+          });
+          console.log(city);
         }
-        this.setState({ ...this.state, userDe: userD });
       })
       .catch((error) => {
         //window.alert('not reached!');
@@ -127,7 +134,6 @@ class MyAccount extends Component {
     if (this.state.msg === false) {
       return <Redirect to="/mapsPage" />;
     }
-    const { userDe } = this.state;
     return (
       <div className="bgimg">
         <div className="form_block">
@@ -143,7 +149,7 @@ class MyAccount extends Component {
                 Name:
                 <input
                   type="text"
-                  value={userDe.uname}
+                  value={this.state.DetailUser.uname}
                   placeholder="UserName"
                   required
                   onChange={this.handleChange}
@@ -155,7 +161,7 @@ class MyAccount extends Component {
                 Email:
                 <input
                   type="text"
-                  value={userDe.email}
+                  value={this.state.DetailUser.email}
                   placeholder="EmailID"
                   required
                   onChange={this.handleChange}
@@ -167,7 +173,7 @@ class MyAccount extends Component {
                 City:
                 <input
                   type="text"
-                  value={userDe.city}
+                  value={this.state.DetailUser.city}
                   placeholder="city"
                   required
                   onChange={this.handleChange}
@@ -179,7 +185,7 @@ class MyAccount extends Component {
                 Phno:
                 <input
                   type="text"
-                  value={userDe.phoneno}
+                  value={this.state.DetailUser.phoneno}
                   placeholder="phone number"
                   required
                   onChange={this.handleChange}

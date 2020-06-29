@@ -4,17 +4,9 @@ import { GoogleComponent } from 'react-google-location';
 import Map from '../maps/Map';
 import './landing.css';
 import { Redirect } from 'react-router-dom';
-/*import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from 'react-router-dom';
-import Login from './Login';
-import MyAccount from './Profile';*/
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
+//import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import AddLocationIcon from '@material-ui/icons/AddLocation';
 
 const API_KEY = 'AIzaSyDprftdVU4M9RKlH31yZqrPNO5Rj-Y6AKg';
@@ -53,22 +45,6 @@ class Home extends Component {
     fire.auth().signOut();
     window.alert('Logging out!');
   };
-  delete(id) {
-    fire
-      .firestore()
-      .collection('coordinates')
-      .doc(id)
-      .delete()
-      .then(() => {
-        console.log('Document successfully deleted!');
-        window.alert('deleting marker');
-        this.props.history.push('/');
-      })
-      .catch((error) => {
-        console.error('Error removing document: ', error);
-        window.alert('Error deleting');
-      });
-  }
 
   setFireBaseAuth = () => {
     fire.auth().onAuthStateChanged((user) => {
@@ -224,9 +200,9 @@ class Home extends Component {
     }
   };
 
-  getProfiledata = (event) => {
+  /*getProfiledata = (event) => {
     this.setState({ ...this.state, msg: false });
-  };
+  };*/
   handleChange = (event) => {
     if (event.target.files[0]) {
       const image = event.target.files[0];
@@ -268,20 +244,10 @@ class Home extends Component {
               </button>
               <button
                 className="buttoncss"
-                style={{
-                  float: 'right',
-                  marginTop: '30px',
-                }}
-                onClick={this.getProfiledata}
-              >
-                <PersonOutlineIcon style={{ fontSize: '12px' }} /> Profile
-              </button>
-              <button
-                className="buttoncss"
                 onClick={this.showMarkerinLoc}
                 style={{
                   float: 'right',
-                  marginRight: '190px',
+                  marginRight: '260px',
                   marginTop: '80px',
                 }}
               >
@@ -307,7 +273,6 @@ class Home extends Component {
                 width="500px"
                 height="500px"
                 zoom={14}
-                markerName={{ desc: this.state.desc }}
                 markerslist={this.state.markerslist}
               />
 

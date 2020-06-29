@@ -17,6 +17,13 @@ class SimpleMap extends Component {
           center={this.props.location}
           defaultZoom={this.props.zoom}
         >
+          <Marker
+            lat={this.props.location.lat}
+            lng={this.props.location.lng}
+            color="rgb(9, 182, 250)"
+            width="9px"
+            height="9px"
+          />
           {this.props.markerslist?.map((marker, index) => (
             <Marker
               key={index}
@@ -28,14 +35,6 @@ class SimpleMap extends Component {
               name="Danger Zone"
             />
           ))}
-          <Marker
-            lat={this.props.location.lat}
-            lng={this.props.location.lng}
-            name={this.props.desc}
-            color="rgb(9, 182, 250)"
-            width="9px"
-            height="9px"
-          />
         </GoogleMapReact>
       </div>
     );
