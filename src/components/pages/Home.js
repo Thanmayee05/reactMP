@@ -9,7 +9,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 //import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import AddLocationIcon from '@material-ui/icons/AddLocation';
 
-const API_KEY = 'AIzaSyDprftdVU4M9RKlH31yZqrPNO5Rj-Y6AKg';
+const API_KEY = 'AIzaSyBis2xi_3iI-dRw9A8GeY71myhp0DNTXHo';
 
 class Home extends Component {
   constructor(props) {
@@ -20,8 +20,8 @@ class Home extends Component {
       imgSrc: '',
       progress: 0,
       markerslist: [],
-      lng: 78.491684,
-      lat: 17.38714,
+      lng: null,
+      lat: null,
       message: '',
       loginStatus: true,
       status: true,
